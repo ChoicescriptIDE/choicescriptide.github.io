@@ -6,9 +6,9 @@
     "target": ""
 	},
 	"latest": {
-		"CSIDE_version": "1.1.6.1",
+		"CSIDE_version": "1.8",
     "nw_version": "0.18.2",
-    "desc": "Quick patch: fixes case (in)sensitivity when finding scenes",
+    "desc": "YES, but no...",
 		"target": "https://choicescriptide.github.io/downloads/updates/targets/1161.zip"
 	},
 	"dev": {
