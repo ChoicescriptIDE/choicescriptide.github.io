@@ -1,7 +1,7 @@
 title:            The ChoiceScript IDE
 description:      The Choicescript IDE, or CSIDE (seaside), is a development environment designed to help writers of interactive novels using the Choicescript scripting language, from Choice of Games LLC.
 # put your disqus here
-disqus_shortname:
+disqus_shortname: https-choicescriptide-github-io-about
 reading_time:     true # if true, shows the estimated reading time for a post
 words_per_minute: 200
 logo:             images/cside.png # logo visible in the topbar

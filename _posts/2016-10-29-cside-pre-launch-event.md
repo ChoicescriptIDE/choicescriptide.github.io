@@ -6,6 +6,7 @@ tags: [sample post]
 link: https://www.youtube.com/watch/yGXOy7zFi7I
 image:
     feature: try-cside.png
+comments: true
 ---
 
 To celebrate the imminent release of the ChoiceScript IDE we'll be hosting a Pre-Launch livestream event on the 18th of September.
