@@ -2,6 +2,7 @@
 layout: page
 title: Testimonials
 share: true
+comments: false
 ---
 
 # Testimonials

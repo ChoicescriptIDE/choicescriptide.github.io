@@ -24,6 +24,8 @@ menu:
     url: '/gallery'
   - title: 'Why'
     url: '/why'
+  - title: 'Discuss'
+    url: '/discuss'
 #  - title: 'FAQ'
 #    url: '/faq'
 #  - title: 'Categories'

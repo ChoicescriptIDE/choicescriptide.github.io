@@ -2,6 +2,7 @@
 layout: page
 title: Screenshots
 share: true
+comments: false
 ---
 
 # Gallery
