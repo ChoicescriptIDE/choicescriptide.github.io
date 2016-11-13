@@ -1,6 +1,6 @@
 ---
 layout: page
-title: Features Requests
+title: Feature Requests
 share: true
 ---
 
