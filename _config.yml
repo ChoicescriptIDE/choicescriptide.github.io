@@ -26,6 +26,11 @@ menu:
     url: '/why'
   - title: 'Discuss'
     url: '/discuss'
+    submenu:
+      - title: 'Bug Reports'
+        url: '/discuss/report-bug/'
+      - title: 'Feature Requests'
+        url: '/discuss/request-feature/'
 #  - title: 'FAQ'
 #    url: '/faq'
 #  - title: 'Categories'
