@@ -9,7 +9,7 @@
 		"CSIDE_version": "1.0.0.2",
     "nw_version": "0.21.4",
     "desc": "Fix for missing editor functionality: Fullscreen, Search, AutoSuggest etc.",
-		"target": "https://choicescriptide.github.io/downloads/updates/targets/1001.zip"
+		"target": "https://choicescriptide.github.io/downloads/updates/targets/1002.zip"
 	},
 	"dev": {
 		"CSIDE_version": "0.0.0",
