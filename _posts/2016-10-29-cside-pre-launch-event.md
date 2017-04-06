@@ -1,9 +1,11 @@
 ---
-layout: dark-post
 title: ChoiceScript IDE Pre-Launch Event
 description: "Details on a pre-launch streaming and demonstration of the ChoiceScript IDE"
+layout: post
+theme: dark
 tags: [sample post]
 link: https://www.youtube.com/watch/yGXOy7zFi7I
+author: CJW
 image:
     feature: try-cside.png
 comments: false

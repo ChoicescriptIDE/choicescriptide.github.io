@@ -1,0 +1,10 @@
+---
+layout: post-index
+title: Meet the Team
+description: "An archive of posts."
+comments: false
+---
+
+{% for a in site.authors %}
+  {% include author.html author=a %}
+{% endfor %}

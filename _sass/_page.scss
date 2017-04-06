@@ -267,7 +267,6 @@ header .entry-meta {
 }
 .author-img {
 	width: 150px;
-	height: 150px;
 	border-radius: 50%;
 	-webkit-border-radius: 50%;
 	-moz-border-radius: 50%;
@@ -279,9 +278,10 @@ header .entry-meta {
 	display: flex;
 }
 .author-bio{
-	padding-top: 30px;
-	padding-left: 20px;
-	flex-grow: 1;
+  padding-top: 30px;
+  padding-left: 20px;
+  flex-grow: 1;
+  text-align: left;
 }
 ul.social-buttons li a {
     display: block;
@@ -657,6 +657,23 @@ ul.social-buttons li a:active {
 	border-left-color: $header-margin;
 }
 
+.cogforum-button {
+  background: #f3cd35 url(../../images/cogforum.png) 10px no-repeat;
+  font-size: 12px;
+  background-size: 60px;
+  float: right;
+  min-width: 25px;
+  padding: 4px 10px;
+  padding-left: 80px;
+  border: solid 1px black;
+  border-radius: 5px;
+  margin-left: 10px;
+}
+
+.twitter-follow-button {
+  float: right;
+}
+
 .button-twitter {
 	color: $white;
 	position: fixed;
@@ -677,18 +694,18 @@ ul.social-buttons li a:active {
 		}
 	}
 }
-  
+
 // Responsive Tables: http://codepen.io/anon/pen/QwPVNW
 // --------------------------------------------------
-  
+
   table span.fa.fa-check {
     color: #7dbf7d;
   }
-  
+
   table span.fa.fa-close {
     color: #de7f7f;
   }
-  
+
   table {
     border: 1px solid #ccc;
     width: 100%;
@@ -697,7 +714,7 @@ ul.social-buttons li a:active {
     border-collapse: collapse;
     border-spacing: 0;
   }
-  
+
   table thead {
     background-color: $header-color;
     color: white;
@@ -707,7 +724,7 @@ ul.social-buttons li a:active {
     border: 1px solid #ddd;
     padding: 5px;
   }
-  
+
   table tr:nth-child(even) {
     background-color: #e9f8ff;
   }
@@ -746,7 +763,7 @@ ul.social-buttons li a:active {
       font-size: 13px;
       border-bottom: 1px dotted #ccc;
     }
-    
+
     table td:first-of-type {
       background-color: $header-color;
       color: white;
@@ -765,13 +782,13 @@ ul.social-buttons li a:active {
       font-weight: bold;
     }
   }
-  
+
   blockquote::before {
     content: "\"";
     font-size: 50px;
-    float: left;  
+    float: left;
   }
-  
+
   blockquote {
     font-family: serif;
     font-size: 16px;
@@ -782,7 +799,7 @@ ul.social-buttons li a:active {
     border-left: 5px solid #3bc4f0;
     padding: 10px;
   }
-  
+
   blockquote > p {
     margin-left: 40px; /* offset the preceding '"' */
   }

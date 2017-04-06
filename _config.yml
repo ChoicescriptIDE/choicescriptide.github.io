@@ -8,7 +8,7 @@ logo:             images/cside.png # logo visible in the topbar
 # Your site's domain goes here (eg: //mmistakes.github.io, http://mademistakes.com, etc)
 # When testing locally leave blank or use http://localhost:4000
 
-url: https://ChoiceScriptIDE.github.io
+url: http://localhost:4000 #https://ChoiceScriptIDE.github.io
 
 # draw your top menu here
 # each item must have a title and a url.
@@ -19,7 +19,10 @@ menu:
   - title: 'Latest'
     url: '/'
   - title: 'About'
-    url: '/about/'
+    url: '/about'
+    submenu:
+      - title: 'Team'
+        url: '/team'
   - title: 'Screenshots'
     url: '/gallery'
   - title: 'Why'
@@ -35,6 +38,18 @@ menu:
 #    url: '/faq'
 #  - title: 'Categories'
 #    url: '/categories'
+
+collections:
+  authors:
+
+defaults:
+  - scope:
+      path: ""
+      type: authors
+    values:
+      avatar:
+      role: "Team Member"
+
 
 # Owner/author information
 owner:
@@ -115,5 +130,5 @@ page_layout: page
 titlecase: true
 
 include: [".htaccess"]
-exclude: ["lib", "config.rb", "Capfile", "config", "Gemfile", "Gemfile.lock", "README.md", "LICENSE", "log", "Rakefile", "Rakefile.rb", "tmp", "less", "*.sublime-project", "*.sublime-workspace", "test", "spec", "Gruntfile.js", "package.json", "node_modules"]
+exclude: ["vendor", "lib", "config.rb", "Capfile", "config", "Gemfile", "Gemfile.lock", "README.md", "LICENSE", "log", "Rakefile", "Rakefile.rb", "tmp", "less", "*.sublime-project", "*.sublime-workspace", "test", "spec", "Gruntfile.js", "package.json", "node_modules"]
 gems: [jekyll-paginate]
