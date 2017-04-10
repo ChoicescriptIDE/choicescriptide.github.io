@@ -265,7 +265,39 @@ header .entry-meta {
 		}
 	}
 }
-.author-img {
+
+.author-button-cogforum {
+  background: #f3cd35 url(../../images/cogforum.png) 10px no-repeat;
+  font-size: 12px;
+  background-size: 60px;
+  float: right;
+  min-width: 25px;
+  padding: 4.5px 10px;
+  padding-left: 80px;
+  border-radius: 5px;
+  margin-left: 10px;
+}
+
+.author-button-tumblr {
+  background: #36465d;
+  font-size: 12px;
+  float: right;
+  min-width: 25px;
+  padding: 4.5px 10px;
+  border-radius: 5px;
+  margin-left: 10px;
+  color: white;
+}
+
+.author-button-tumblr:visited {
+  color: white;
+}
+
+.twitter-follow-button {
+  float: right;
+}
+
+.author-avatar {
   width: 15%;
   height: 15%;
   border-radius: 50%;
@@ -279,10 +311,10 @@ header .entry-meta {
     display: inline;
   }
 }
-.author-container{
+.author-container {
 	display: flex;
 }
-.author-bio{
+.author-bio {
   padding-top: 30px;
   padding-left: 20px;
   flex-grow: 1;
@@ -660,22 +692,6 @@ ul.social-buttons li a:active {
 .sub-item:hover {
 	border-bottom-color: $header-margin;
 	border-left-color: $header-margin;
-}
-
-.cogforum-button {
-  background: #f3cd35 url(../../images/cogforum.png) 10px no-repeat;
-  font-size: 12px;
-  background-size: 60px;
-  float: right;
-  min-width: 25px;
-  padding: 4.5px 10px;
-  padding-left: 80px;
-  border-radius: 5px;
-  margin-left: 10px;
-}
-
-.twitter-follow-button {
-  float: right;
 }
 
 .button-twitter {

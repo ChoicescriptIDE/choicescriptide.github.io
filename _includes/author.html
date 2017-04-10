@@ -6,7 +6,7 @@
     <div class="read-more-content author-info">
       <h3>{{include.author.name}}</h3>
       <div class="author-container">
-        {% if include.author.avatar %}<img class="author-img" src="{{site.url}}/{{include.author.avatar}}" alt="{{include.author.name}}" />{% endif %}
+        {% if include.author.avatar %}<img class="author-avatar" src="{{site.url}}/{{include.author.avatar}}" alt="{{include.author.name}}" />{% endif %}
         {% if include.author.bio %}<div class="author-bio">{{include.author.bio}}</div>{% endif %}
       </div>
       <div class="author-share">
@@ -16,13 +16,16 @@
           {% endfor %}
         </ul>
         {% if include.author.cogforums %}
-          <a href="https://forum.choiceofgames.com/users/{{include.author.cogforums}}" target="_blank" class="cogforum-button">@{{include.author.cogforums}}</a>
+          <a href="https://forum.choiceofgames.com/users/{{include.author.cogforums}}" target="_blank" class="author-button-cogforum">@{{include.author.cogforums}}</a>
         {% endif %}
         {% if include.author.github %}
           <a aria-label="@{{include.author.github}} on GitHub" data-style="mega" href="https://github.com/{{include.author.github}}" class="github-button">@{{include.author.github}}</a>
         {% endif %}
         {% if include.author.twitter %}
           <a href="https://twitter.com/{{include.author.twitter}}" class="twitter-follow-button" data-show-count="false" data-size="large">Follow @{{include.author.twitter}}</a>
+        {% endif %}
+        {% if include.author.tumblr %}
+          <a href="https://{{include.author.tumblr}}.tumblr.com" target="_blank" class="author-button-tumblr"><span class="fa fa-tumblr"></span> Follow {{include.author.twitter}}</a>
         {% endif %}
       </div>
     </div>
