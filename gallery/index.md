@@ -14,5 +14,9 @@ comments: false
   <a href="{{ site.url }}/images/screenshots/settings.png"><img src="{{ site.url }}/images/screenshots/settings.png" alt="Customizable settings"></a>
 	<a href="{{ site.url }}/images/screenshots/popout.png"><img src="{{ site.url }}/images/screenshots/popout.png" alt="Popout your project"></a>
   <a href="{{ site.url }}/images/screenshots/fullscreen.png"><img src="{{ site.url }}/images/screenshots/fullscreen.png" alt="Fullscreen mode"></a>
-	<figcaption>Some of the many features of CSIDE.</figcaption>
+  <a href="{{ site.url }}/images/screenshots/quicktest.png"><img src="{{ site.url }}/images/screenshots/quicktest.png" alt="Quicktest popup"></a>
+  <a href="{{ site.url }}/images/screenshots/fullscreen-complex.png"><img src="{{ site.url }}/images/screenshots/fullscreen-complex.png" alt="Fullscreen mode"></a>
+  <a href="{{ site.url }}/images/screenshots/no-tab-panel.png"><img src="{{ site.url }}/images/screenshots/no-tab-panel.png" alt="Fullscreen mode"></a>
+  <a href="{{ site.url }}/images/screenshots/console-magic.png"><img src="{{ site.url }}/images/screenshots/console-magic.png" alt="Fullscreen mode"></a>
+	<figcaption>Screenshots that show many of the features of CSIDE.</figcaption>
 </figure>
