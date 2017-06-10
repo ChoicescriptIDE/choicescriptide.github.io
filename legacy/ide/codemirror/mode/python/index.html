@@ -1,0 +1,240 @@
+<!doctype html>
+
+<title>CodeMirror: Python mode</title>
+<meta charset="utf-8"/>
+<link rel=stylesheet href="../../doc/docs.css">
+
+<link rel="stylesheet" href="../../lib/codemirror.css">
+<link rel=stylesheet href="../../theme/eclipse.css">
+<script src="../../lib/codemirror.js"></script>
+<script src="../../addon/edit/matchbrackets.js"></script>
+<script src="python.js"></script>
+
+<div style="width:100%;height:100%"><textarea id="code" name="code">
+*label start
+*comment SETS AMOUNT OF MINI SCENES UTILIZED IN SYSTEM 
+*comment(must not EXCEED number of mini scene labels/booleans)
+*temp total_scenes
+*set total_scenes 9
+*temp max_scenes
+There are nine potential random scenes in this game, how many do you wish to use? (2-9)
+*input_number max_scenes 2 9
+
+*comment THESE SHOULD NOT BE CHANGED
+*temp current_check
+*temp current_scene
+
+*comment DEFINES THE PREFIX FOR MINI-SCENE LABELS - CAN BE CHANGED
+*comment BUT IT IS NOT RECOMMENDED
+*temp labelprefix
+*set labelprefix "miniscene_"
+
+*comment A BOOLEAN VAR IS REQUIRED FOR EACH SCENE. IT MUST BE INTIALLY SET TO FALSE
+*temp seen1
+*set seen1 false
+*temp seen2
+*set seen2 false
+*temp seen3
+*set seen3 false
+*temp seen4
+*set seen4 false
+*temp seen5
+*set seen5 false
+*temp seen6
+*set seen6 false
+*temp seen7
+*set seen7 false
+*temp seen8
+*set seen8 false
+*temp seen9
+*set seen9 false
+
+*comment SELECTS A RANDOM MINI-SCENE. IF THE MINI-SCENE HAS NOT BEEN READ, MARK IT READ AND GOTO IT;
+*comment IF THE MINI-SCENE HAS BEEN READ, RE-RANDOMIZE ANOTHER
+
+*label nextscene
+*gosub checkend
+*rand current_scene 1 total_scenes
+*set current_check "seen"&current_scene
+*if ({current_check} = false) 
+ *setref current_check true
+ *set  current_scene labelprefix&current_scene
+ *gotoref current_scene
+*goto nextscene
+
+*label miniscene_1
+Scene 1
+*page_break
+*goto nextscene
+
+*label miniscene_2
+Scene 2
+*page_break
+*goto nextscene
+
+*label miniscene_3
+Scene 3
+*page_break
+*goto nextscene
+
+*label miniscene_4
+Scene 4
+*page_break
+*goto nextscene
+
+*label miniscene_5
+Scene 5
+*page_break
+*goto nextscene
+
+*label miniscene_6
+Scene 6
+*page_break
+*goto nextscene
+
+*label miniscene_7
+Scene 7
+*page_break
+*goto nextscene
+
+*label miniscene_8
+Scene 8
+*page_break
+*goto nextscene
+
+*label miniscene_9
+Scene 9
+*page_break
+*goto nextscene
+
+*label miniscene_10
+Scene 10
+*page_break
+*goto nextscene
+
+
+*comment THIS SUB ROUTINE CHECKS IF ALL MINI-SCENES HAVE BEEN READ, IF YES, THE  MAIN SCENE IS ENDED;
+*comment IF NOT, RETURN TO MINI-SCENE RANDOMIZATION
+
+*label checkend
+*temp n
+*temp current
+*temp total_read
+*set total_read 0
+*set n 0
+*label checkend_loop
+*set n (n + 1)
+*set current "seen"&n
+*if ({current} = true)
+ *set total_read (total_read + 1)
+*if (total_read = max_scenes)
+ You're done! ${max_scenes} scenes were shown in a random order!
+ *page_break play again
+ *goto start
+ *comment GOTO IS IN PLACE FOR DEMO PURPOSES, *FINISH WOULD PROBABLY BE MORE PRUDENT
+ *finish
+*if (n = total_scenes) 
+ *return
+*goto checkend_loop
+# Literals
+1234
+0.0e101
+.123
+0b01010011100
+0o01234567
+0x0987654321abcdef
+7
+2147483647
+3L
+79228162514264337593543950336L
+0x100000000L
+79228162514264337593543950336
+0xdeadbeef
+3.14j
+10.j
+10j
+.001j
+1e100j
+3.14e-10j
+
+
+# String Literals
+'For\''
+"God\""
+"""so loved
+the world"""
+'''that he gave
+his only begotten\' '''
+'that whosoever believeth \
+in him'
+''
+
+# Identifiers
+__a__
+a.b
+a.b.c
+
+# Operators
++ - * / % & | ^ ~ < >
+== != <= >= <> << >> // **
+and or not in is
+
+# Delimiters
+() [] {} , : ` = ; @ .  # Note that @ and . require the proper context.
++= -= *= /= %= &= |= ^=
+//= >>= <<= **=
+
+# Keywords
+as assert break class continue def del elif else except
+finally for from global if import lambda pass raise
+return try while with yield
+
+# Python 2 Keywords (otherwise Identifiers)
+exec print
+
+# Python 3 Keywords (otherwise Identifiers)
+nonlocal
+
+# Types
+bool classmethod complex dict enumerate float frozenset int list object
+property reversed set slice staticmethod str super tuple type
+
+# Python 2 Types (otherwise Identifiers)
+basestring buffer file long unicode xrange
+
+# Python 3 Types (otherwise Identifiers)
+bytearray bytes filter map memoryview open range zip
+
+# Some Example code
+import os
+from package import ParentClass
+
+@nonsenseDecorator
+def doesNothing():
+    pass
+
+class ExampleClass(ParentClass):
+    @staticmethod
+    def example(inputStr):
+        a = list(inputStr)
+        a.reverse()
+        return ''.join(a)
+
+    def __init__(self, mixin = 'Hello'):
+        self.mixin = mixin
+
+</textarea></div>
+    <script>
+      var editor = CodeMirror.fromTextArea(document.getElementById("code"), {
+        mode: {name: "python",
+				theme: "eclipse",
+               version: 2,
+               singleLineStringErrors: false},
+        lineNumbers: true,
+        indentUnit: 4,
+        tabMode: "shift",
+        matchBrackets: true
+    });
+	var x = editor.getValue();
+	alert(x);
+    </script>

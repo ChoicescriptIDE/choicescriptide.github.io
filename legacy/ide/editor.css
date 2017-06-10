@@ -1,0 +1,337 @@
+html {
+	 max-height: 92%;
+	 width: 100%;
+	 box-sizing: border-box;
+	 -moz-box-sizing: border-box;
+	 border: none;
+	 margin: 0px;
+	 padding: 0px;
+}
+
+body {
+	height: 100%;
+	width: 100%;
+	box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	border: none;
+	margin: 0px;
+	padding: 0px;
+	font-family: "century gothic", arial;
+}
+
+.main-wrap {
+	padding: 0px;margin: 0px;box-sizing: border-box;border: none;height:100%;width: 100%;display:inline;position: fixed;top: 0px;left: 0px;"><div style="
+    height: 100%;
+}
+
+#second-wrap {
+	position: absolute;
+	top: 51px;
+	width: 100%;
+	bottom: 0px;
+}
+
+.left-wrap {
+    width: 100%;
+    height: 100%;
+    float: left;
+    position: relative;
+}
+.right-wrap {
+	position:absolute;
+    width: 50%;
+    height: 100%;
+	right:-50%;
+}
+
+#viewport {
+	height: 100%;
+	width: 100%;
+	margin: 0px;
+	box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	padding: 0px;
+	z-index: 1;
+	position: relative;
+	background-color: #DDD;  
+	border: solid;
+	border-width: 0px 0px 0px 1px;
+	border-color: darkgrey;
+}
+
+#toolbar {
+	font-family:"century gothic", arial;
+    width: 100%;
+	white-space:nowrap;
+	overflow:hidden;
+    height: 50px;
+    border: solid;
+    border-width: 1px 0px 1px 0px;
+    border-color: rgb(92, 92, 92);      
+    z-index: 50;
+    position: fixed;
+    top: 0px;
+    left: 0px;
+	background:url('img/ui/csidelogo.png'), url('cog-logo.png');
+	background-color: #686868;
+	background-repeat:no-repeat, no-repeat;
+	background-position:80px 10px, 0px 0px;
+}
+
+#toolbar ul {
+	margin:0px;
+	padding:0px;
+	height:50px;
+	list-style:none;
+}
+
+#toolbar li {
+	position: relative;
+	float:left;
+	height:50px;
+	margin-right: 2px;
+	background-color: rgb(100, 100, 100);
+}
+
+#toolbar li:hover {
+	background-color:rgb(80, 80, 80);
+}
+
+#toolbar a {
+	color:lightgrey;
+	text-decoration:none;
+}
+
+.navlink {
+	position: relative;
+	padding: 12px 0px;
+	display: block;
+	width:100%;
+	text-align:center;
+}
+
+#cs_input {
+	height:100%;
+	width:100%;
+	min-height:100%;
+	max-height: 100%;
+	min-width:100%;
+	max-width: 100%;
+	box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	margin: 0px; 
+	padding: 0px; 
+	border: none; 
+	z-index: 5; 
+	position: relative;
+	background-color: white;
+	box-shadow: inset 0px 0px 10px 0px #9C9C9C;
+	padding: 0px 0px 0px 50px;
+	font-size:14px;
+	line-height:1.5;
+	overflow-y:auto;
+	overflow-x:auto;
+	word-wrap: normal;
+	white-space:pre;
+}
+
+#linenumbers {
+	font-size: 14px;
+	float: left;
+	height: 100%;
+	width: 25px;
+	position: absolute;
+	z-index: 8;
+	top: 0px;
+	bottom: 0px;
+	padding-right: 0px;
+	padding-left: 10px;
+	line-height: 1.5;
+	overflow: hidden;
+	list-style: none;
+	background-color: #E0E0E0;
+	box-shadow: 2px 3px 4px -2px #AFAFAF;
+	margin: 0px 0px 0px 0px;
+	border: solid;
+	border-width: 1px;
+	border-color: rgb(170, 170, 170);
+}
+
+#expand_contract {
+	font-family:serif;
+	position: absolute;
+	z-index: 50;
+	top: 39%;
+	left: -90px;
+	font-size: 100px;
+	color: rgb(100, 100, 100);
+	opacity: 0.15; 
+	-moz-opacity: 0.15;
+	-ms-filter:'progid:DXImageTransform.Microsoft.Alpha'(Opacity=0.15);
+	padding:5px;
+	cursor:pointer;
+	-webkit-touch-callout: none;
+	-webkit-user-select: none;
+	-khtml-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+}
+
+#editor-wrap {
+	font-size:12px;
+	width:100%;
+	position:absolute;
+	top:25px;
+	bottom:2px;
+}
+
+#text-toolbar {
+	height: 24px;
+	position: relative;
+	top: 1px;
+	width: 100%;
+	background-color: rgb(236, 236, 236);
+	border-bottom: solid 1px lightgrey;
+	z-index: 50;
+	font-size: 14px;
+	overflow: hidden;
+}
+
+#text-toolbar form {
+	display: inline-block;
+}
+
+#text-toolbar ul {
+	position:relative;
+	padding:0px;
+	margin:0px;
+	height:100%;
+	width:100%;
+	text-decoration:none;
+}
+
+#text-toolbar li {
+	position:relative;
+	display: inline-block;
+	height: 24px;
+	margin-left: 5px;
+	background-size: 20px 20px;
+	background-repeat: no-repeat;
+	overflow:hidden;
+}
+
+@media (max-width: 1100px) { 
+	#text-toolbar {
+		height: 60px;
+	}
+	#editor-wrap {
+		top:62px;
+	}
+}
+
+#text-toolbar div {
+	display: inline-block;
+	height: 20px;
+	width: 100%;
+	margin: 2px;
+	margin-left: 5px;
+	padding-left: 25px;
+	background-size: 20px 20px;
+	background-repeat: no-repeat;
+}
+
+#text-toolbar a {
+	display: block;
+	height: 100%;
+	width: 100%;
+	color: black;
+}
+
+.tt-menu {
+	background:url('img/ui/menu.png');
+}
+.tt-select {
+	background:url('img/ui/select.png');
+}
+.tt-delete {
+	background:url('img/ui/delete.png');
+}
+.tt-save {
+	background:url('img/ui/save.png');
+}
+.tt-vars {
+	background:url('img/ui/vars.png');
+}
+.tt-run {
+	background:url('img/ui/run.png');
+}
+.tt-load {
+	background:url('img/ui/load.png');
+}
+.tt-export {
+	background:url('img/ui/export.png');
+}
+.tt-settings {
+	background:url('img/ui/settings.png');
+}
+.tt-help {
+	background:url('img/ui/help.png');
+}
+.tt-raw {
+	background:url('img/ui/raw.png');
+}
+.tt-bug {
+	background:url('img/ui/bug.png');
+}
+
+
+.panel {
+	position: absolute;
+	top: -100%;
+	bottom: 100%;
+	left: 0px;
+	width: 100%;
+	border:solid;
+	border-width: 0px 1px 1px 0px;
+	border-color:#8F8D8D;
+	background-color: rgb(238, 238, 238);
+	z-index: 10;
+	overflow:auto;
+}
+#var-tracker-status {
+	position: absolute;
+	top: 40px;
+	left: 40px;
+	height: 20px;
+}
+
+.panel ul {
+	position:absolute;
+	top:80px;
+	list-style:none;
+}
+
+.panel li {
+	width:500px;
+	padding:5px;
+	background-color:lightgrey;
+	border:solid;
+	border-width:1px;
+	border-color:darkgrey;
+}
+
+#code {
+	display: none;
+	position: absolute;
+	z-index: 500;
+	width: 100%;
+	height: 100%;
+	opacity: 1;
+	border: none;
+	box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	padding: 5px;
+	margin-top:1px;
+	font-size:inherit;
+}

@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<link href="tutorial.css" rel="stylesheet" type="text/css">
+	<script src="jquery-1.10.2.min.js"></script>
+	<script src="default.js"></script>
+</head>
+<body>
+	<div>
+		<h1>Welcome to the CS-IDE!</h1>
+		<p>See what I did there?<p>
+		<p>If you're just getting started with the Choicescript IDE you can find out all you need to know below.</p>
+		<p>Happy scripting!</p>
+		<ul>
+			<li class="section-header inactive">
+				IDE Features
+				<div>
+					<ul style="list-style: initial;">
+						<li>Pretty-ness</li>
+						<li>In-Browser (side-by-side) Code Writing and Testing</li>
+						<li>Line Numbers!</li>
+						<li>Highlights and Focuses on Line Errors</li>
+						<li>Tab Support</li>
+						<li>Syntax Highlighting</li>
+						<li>Auto Indentation</li>
+						<li>Line Wrapping</li>
+						<li>Real-Time Variable Tracking & Amending</li>
+						<li>Multi Scene Support</li>
+						<li>Local Saving/Loading</li>
+						<li>Single File Game Exportation</li>
+					</ul>
+					<p>For comparison purposes, the original tester had absolutely none of these.</p>
+			</li>
+			<li class="section-header inactive">
+				Help
+				<div>
+					<p>
+						Most of the IDE's features should be pretty straight forward to use, particularly if you're already familiar with ChoiceScript.
+						That said here are some brief details on the more important aspects.
+					</p>
+						<ul id="help-menu">
+							<li>
+								The Toolbar
+								<div>
+									<p>
+										There are two toolbars above the code editor. You can swap between them by using the File and Editor buttons, prefixed by the menu
+										<img src="img/ui/menu.png"/> icon.
+										
+									</p>
+									<p>
+										One covers scene/file specific commands and the other the more general ones.
+									</p>
+								</div>
+							</li>
+							<li>
+								Running Code
+								<div>
+									<p>
+										To run your code click the <img src="img/ui/run.png"/> Run button at the start of the File prefixed toolbar.
+										The IDE will always run your startup scene first.
+									</p>
+								</div>
+							</li>
+							<li>
+								Changing Settings
+								<div>
+									<p>
+										To change settings relating to the editor (tab spacing etc) click the <img src="img/ui/settings.png"/> Settings button on the File prefixed toolbar.
+										Click the settings button again to close the panel.
+									</p>
+								</div>
+							</li>
+							<li>
+								The Variable Tracker
+								<div>
+									<p>
+										<img src="img/ui/vars.png"/> Vars will open the variable tracker. This part of the IDE will only work whilst you have code running.
+										It lists and periodically updates all your variable values, allowing you to track them whilst play-testing. It also lists core CS
+										variables, the changing of which is inadvisable. If you manage to break your game or just want to reset it, just click "Run" again.
+										Click the Vars button again to close the panel.
+									</p>
+								</div>
+							</li>
+							<li>
+								Exporting Games
+								<div>
+									<p>
+										<img src="img/ui/export.png"/> Export is found under the Editor prefixed toolbar. This is an experimental feature based off of compile.html.
+										It will attempt to compile and export all your currently open scenes as a single (and hopefully working) .html file. If one is found, it will use your *title
+										command as the file title and html header.
+									</p>
+								</div>
+							</li>
+							<li>
+								Adding/Removing & Changing Scenes
+								<div>
+									<p>
+										By default the IDE will always create the startup and choicescript_stats scenes - and will not let you delete them.
+										In order to change, delete or add scenes, you need to be on the Editor prefixed toolbar. Your current scene is displayed in a
+										dropdown. You should also use this to change or create new scenes. To delete your current scene, click the <img src="img/ui/delete.png"/> Delete button.
+									</p>
+								</div>
+							</li>
+							<li>
+								Saving/Loading
+								<div>
+									<p>
+										Both buttons are found on the Editor prefixed toolbar. All currently active scenes are saved to your browser's local storage.
+										If cookies/storage are disabled and/or not supported by your browser, the save will fail. If you clear your browser's data or
+										are browsing in incognito/private mode - your save will be lost. In short, don't rely solely on this save function - always back your
+										code up locally.
+										<br><br>
+										You only have one save slot, saving again will overwrite your previous data.
+									</p>
+								</div>
+							</li>
+						</ul>
+				</div>
+			</li>
+			<li class="section-header inactive">
+				Accreditations
+				<div>
+					<ul>
+						<li>ChoiceScript © Dan Fabulich.</li>
+						<li>Choice of Games LLC</li>
+						<li>Alertify.js</li>
+						<li>CodeMirror</li>
+						<li>jQuery</li>
+						<li>iconmonstr.com</li>
+						<br>
+						<li style="font-weight:bold;">Special Thanks:</li>
+						<li>LordIrish</li>
+						<li>Mr. Anonymous</li>
+						<p>And of course, last but far from least, the wonderful CScripting community!</p>
+					</ul>
+				</div>
+			</li>
+			<li class="section-header inactive">
+				Known Bugs, Issues, Glitches & Quirks
+				<div>
+					<ul>
+						<li>
+							<b>Funny selectable white-space tabs at the start of line-wrapped blocks</b>
+							<br>
+							<i>This is an unavoidable quirk required to get the desired aesthetic effect without confusing ChoiceScript.</i>
+						</li>
+						<p>If you think you've found a bug/issue or glitch etc that's not listed above, please let me know via the Choice of Games
+							<a href="http://www.choiceofgames.com/forum/discussions" target="_blank">thread</a>.</p>
+					</ul>
+				</div>
+			</li>
+			<li class="section-header inactive">
+				Links
+				<div>
+					<ul>
+						<li><a href="http://www.choiceofgames.com" target="_blank">Choice of Games</a></li>
+						<li><a href="http://www.choiceofgames.com/forum" target="_blank">Choice of Games Community Forum</a></li>
+						<li><a href="http://www.choicescriptdev.wikia.com" target="_blank">Choicescript Developer Wiki</a></li>
+						<p>Got a good CS related site/resource you think this should link to? Let me know!</p>
+					</ul>
+				</div>
+			</li>
+		</ul>
+		<p>
+			© 2013 Carey Williams
+		</p>
+		<p>
+			<a href="https://twitter.com/CareyWilliamz" class="twitter-follow-button" data-show-count="false">Follow @CareyWilliamz</a>
+			<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id))
+			{js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');
+			</script>
+		</p>
+	</div>
+</body>
+</html>

@@ -1,0 +1,190 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+<title>Choicescript IDE</title>
+<!-- cside -->
+<link href="editor.css" rel="stylesheet" type="text/css">
+<script src="jquery-1.10.2.min.js"></script>
+<script src="editor.js"></script>
+<script src="compile.js"></script>
+<!-- mygame stuff -->
+<script src="../scene.js"></script>
+<script src="../navigator.js"></script>
+<script src="../util.js"></script>
+<!-- alertify -->
+<link href="../alertify.css" rel="stylesheet" type="text/css">
+<link href="../alertify.bootstrap.css" rel="stylesheet" type="text/css">
+<script src="../alertify.min.js"></script>
+<!-- CodeMirror -->
+<meta charset="utf-8"/>
+<link rel="stylesheet" href="codemirror/lib/codemirror.css">
+<link rel="stylesheet" href="codemirror/theme/choicescript.css">
+<script src="codemirror/lib/codemirror.js"></script>
+<script src="codemirror/addon/edit/matchbrackets.js"></script>
+<script src="codemirror/mode/choicescript/choicescript.js"></script>
+<link rel="icon" type="image/vnd.microsoft.icon" href="../favicon.ico">
+</head>
+<body>
+	<div class="main-wrap">
+		<div id="toolbar">
+		</div>
+		<div id="second-wrap">
+			<div class="left-wrap">
+				<div id="var-panel" class="panel">
+					<p id="var-tracker-status"></p>
+					<ul>Run some code first.</ul>
+				</div>
+				<div id="settings-panel" class="panel">
+					<ul>
+						<span>Settings</span>
+						<li>
+							<span>Tab Type</span>
+							<form>
+								<select id="tab-type-control" style="max-width:80px;">
+									<option value="tabs">Tabs</option>
+									<option value="spaces">Spaces</option>
+								</select>
+							</form>
+						</li>
+						<li>
+							<span>Tab/Indent Block Size</span>
+							<form>
+								<select id="tab-size-control" style="max-width:80px;">
+									<option value="2">2</option>
+									<option selected="selected" value="4">4</option>
+									<option value="6">6</option>
+									<option value="8">8</option>
+								</select>
+							</form>
+						</li>
+						<li>
+							<span>"Smart" Indentation</span>
+							<form>
+								<select id="smart-indent-control" style="max-width:80px;">
+									<option value="on">On</option>
+									<option value="off">Off</option>
+								</select>
+							</form>
+						</li>
+						<li>
+							<span>Line Wrapping</span>
+							<form>
+								<select id="line-wrap-control" style="max-width:80px;">
+									<option value="off">Off</option>
+									<option value="on">On</option>
+								</select>
+							</form>
+						</li>
+						<li>
+							<span>Font Size (px)</span>
+							<form>
+								<select id="font-size-control" style="max-width:80px;">
+									<option value="10px">10</option>
+									<option selected="selected" value="12px">12</option>
+									<option value="14px">14</option>
+									<option value="16px">16</option>
+									<option value="18px">18</option>
+								</select>
+							</form>
+						</li>
+					</ul>
+				</div>
+				<div id="text-toolbar">
+					<ul style="top:0px;">
+						<li>
+							<a href="#">
+								<div class="tt-menu">File</div>
+							</a>
+						</li>
+						<li>
+							<a href="#">
+								<div class="tt-run">Run</div>
+							</a>
+						</li>
+						<li>
+							<a href="#">
+								<div class="tt-vars">Vars</div>
+							</a>
+						</li>
+						<li>
+							<a href="#">
+								<div class="tt-settings">Settings</div>
+							</a>
+						</li>
+						<li>
+							<a href="#">
+								<div class="tt-help">Help</div>
+							</a>
+						</li>
+						<li>
+							<a href="#">
+								<div class="tt-raw">Raw</div>
+							</a>
+						</li>
+					</ul>
+					<ul>
+						<li>
+							<a href="#">
+								<div class="tt-menu">Editor</div>
+							</a>
+						</li>
+						<li style="width:140px;">
+						<span>Scene:</span>
+							<form>
+								<select id="scene-selector" style="max-width:80px;">
+									<option value="newScene"><i>New...</i></option>
+								</select>
+							</form>
+						</li>
+						<li>
+							<a href="#">
+								<div class="tt-delete">Delete</div>
+							</a>
+						</li>
+						<li>
+							<a href="#">
+								<div class="tt-save">Save</div>
+							</a>
+						</li>
+						<li>
+							<a href="#">
+								<div class="tt-load">Load</div>
+							</a>
+						</li>
+						<li>
+							<a href="#">
+								<div class="tt-export tt-export-game">Export</div>
+							</a>
+						</li>
+						<li>
+							<a href="#">
+								<div class="tt-export tt-export-scenes">Export Scenes</div>
+							</a>
+						</li>
+					</ul>
+				</div>
+				<div id="editor-wrap"><textarea id="code" name="code"></textarea></div>
+					<script>
+					  var scenes = {};
+					  var savedScenes = {};
+					  var editor = CodeMirror.fromTextArea(document.getElementById("code"), {
+						mode: {name: "choicescript",
+							   version: 2,
+							   singleLineStringErrors: false},
+						lineNumbers: true,
+						tabSize: 4,
+						indentUnit: 4,
+						indentWithTabs: true,
+						matchBrackets: true
+					});
+					var charWidth = editor.defaultCharWidth(), basePadding = 4;
+				</script>
+			</div>
+			<div class="right-wrap">
+			<div id="expand_contract">></div>
+				<iframe id="viewport" name="viewport" src="default.html"></iframe>
+			</div>
+		</div>
+	</div>
+</body>
+</html>
