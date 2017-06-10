@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script src="mygame.js"></script>
+<script>
+function cs_test() {
+	window['cs_input'] = document.getElementById('cs_input').value;
+	if (rmv_bl.checked === true) {
+		var parse = cs_input.replace(/\r/gi,'');
+		parse = parse.split('\n');
+		parse = parse.join('\n').replace(/\n{2,}/g,'\n');
+		cs_input = parse;
+	}
+	if(cs_input) {
+		document.getElementById("viewport").src = 'index.html';
+	} else { 
+			alert('Try pasting some code first!');
+	}
+}
+</script>
+</head>
+<body style="height:90%;">
+<h1>Online Choicescript Tester</h1>
+<input type="checkbox" id="rmv_bl" checked="checked" name="remove_blanks"> Automatically Remove Blank Lines
+<p>Copy and paste your choicescript below:</p>
+<div style="margin: 0 auto;height: 600px;width: 100%;display: block;border: solid 1px grey;">
+	<iframe id="viewport" style="height:600px;width:49.999996%;display:inline-block;border:none;float:right;" src=""></iframe>
+	<textarea id="cs_input" cols="41" rows="30" style="width:50%;min-width:50%;max-width:50%;max-height:100%;min-height:100%;display:inline-block;border:none;height:600px;padding: 0px;background-color: rgb(238, 238, 238);
+box-shadow: inset 0px 0px 2px 1px #A8A8A8;" name="cs_input"></textarea>
+</div>
+<br />
+<button onclick="cs_test();" href="index.html">Then Click Me!</button>
+<p>Please note: This is an old hacky tool, running an ancient version of ChoiceScript. It's only here for a bit of fun.
+</body>
+</html>

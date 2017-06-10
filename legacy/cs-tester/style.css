@@ -1,0 +1,244 @@
+body {
+  max-width: 680px;
+  font-family: Georgia,"Times New Roman",serif;
+  background-color: #F7F4F1;
+  color: rgba(0, 0, 0, 0.85);
+  margin: 8px auto; 
+  padding: 0 8px;
+  -webkit-user-select: text; /* selectable text for Chrome app support */
+}
+
+a {
+  /* colored underlined links for XULRunner support */
+  color: blue;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+#text {
+	line-height: 1.5;
+}
+
+#text img {
+  max-width: 100%;
+}
+
+table {
+    margin-bottom: 1em;
+}
+
+.leftStatName {
+    text-align: right;
+    font-weight: bold;
+}
+.definition {
+    font-weight: normal;
+    font-style: italic;
+}
+.leftStatBar {
+    background-color: #FF0000;
+    height: 2em;
+    line-height: 2em;
+    color: white;
+}
+.rightStatName {
+    text-align: left;
+    font-weight: bold;
+}
+.rightStatBar {
+    width: 10em;
+    background-color: #8888FF;
+    height: 2em;
+}
+
+.rightStatBarOpposed {
+    width: 5em;
+    background-color: #8888FF;
+    height: 2em;
+}
+
+.choice>label{
+    color: rgba(0, 0, 0, 0.85);
+    line-height:20px;
+    padding: 11px 8px 12px;
+    display:block;
+    border-color:#a9acaf;
+    border-style:solid;
+    border-width: 1px 1px 0px 1px
+}
+
+.choice>.firstChild{
+    border-top-width:1px;
+    -webkit-border-top-right-radius:8px;
+    -webkit-border-top-left-radius:8px;
+    border-top-right-radius:8px;
+    border-top-left-radius:8px;
+}
+/* IE doesn't support label:last-child */
+.choice>.lastChild{
+    border-bottom-width:1px;
+    -webkit-border-bottom-right-radius:8px;
+    -webkit-border-bottom-left-radius:8px;
+    -moz-border-radius:0px 0px 8px 8px;
+    border-bottom-right-radius:8px;
+    border-bottom-left-radius:8px;
+}
+.choice>.onlyChild{
+    border-width:1px;
+    -webkit-border-radius:8px;
+    -moz-border-radius:8px;
+    border-radius:8px;
+}
+
+input[type="radio"], input[type="checkbox"] {
+  margin-right: 8px;
+}
+
+.saveGame>label {
+  display:block;
+}
+
+.choice>.disabled {
+  color: gray;
+}
+
+.next {
+    clear: both;
+    display:block;
+    width:100%;
+    font-size:25px;
+    font-weight:bolder;
+    margin-bottom: 16px; /* reset button margin */
+    -webkit-appearance: none; /* Safari, don't override my CSS styles */
+    color: #f7f4f1; /* Match background color */ 
+    background-color: #626160;
+    border: none;
+    -webkit-border-radius: 0.5em;
+    -moz-border-radius: 0.5em;
+    border-radius: 0.5em;
+    padding: 6px;
+}
+
+.next:hover {
+  color: #E4DED8;
+}
+
+h1 {
+  font-size: x-large;
+  font-weight: normal;
+}
+
+h2 {
+  font-size: large;
+  font-weight: normal;
+}
+
+#footer {
+  margin:10px 0px 75px 0px;
+}
+
+#mobileLinks a img {
+  border: 0;
+}
+
+.mobileBadges {
+  margin: 0;
+}
+
+.spacedLink {
+  margin-right:0.5em;
+}
+
+#sharelist {
+  margin: 0; /* Eliminate leading space before share links */
+}
+
+#sharelist li {
+  line-height: 1cm; /* Don't let the links bunch up */
+}
+
+.alertify-cover {
+  background-color: black;
+  filter:alpha(opacity=50);
+  opacity: 0.5;
+}
+
+#greybackground {
+    position: fixed;
+    width:100%;
+    height:100%;
+    background-color: black;
+    filter:alpha(opacity=50);
+    opacity: 0.5;
+    top:0;
+    left:0;
+}
+
+.savePassword {
+  font-family: monospace;
+  display: block;
+}
+
+.webOnly { /* We'll override this in JavaScript */
+  display: none;
+}
+
+.alignleft {
+  display: inline;
+  float: left;
+  margin-right: 1.625em;
+  margin-bottom: 1em;
+}
+.alignright {
+  display: inline;
+  float: right;
+  margin-left: 1.625em;
+  margin-bottom: 1em;
+}
+.aligncenter {
+  clear: both;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 1em;
+}
+
+#main form {
+  clear: both;
+}
+
+@media only screen and (max-width: 480px) {
+  .definition{
+    display: none;
+  }
+  
+  #share {
+    font-size: smaller;
+  }
+  
+  #share span:first-child {
+    display: block;
+  }
+  
+  .gameTitle {
+    display: none;
+  }
+
+  #advertisement {
+    margin: -8px;
+  }
+  
+  .mobileBadges {
+    float: none;
+  }
+  
+  #header {
+    margin-top: 30px;
+  }
+
+  /** Floating images should leave enough room for text */
+  #text .alignleft, #text .alignright {
+    max-width: 45%;
+  }
+  
+}
