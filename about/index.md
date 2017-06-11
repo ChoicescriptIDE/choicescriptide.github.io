@@ -33,4 +33,4 @@ We'll assume that, if you're here, you're familiar with ChoiceScript and (or) pl
 
 The Choicescript IDE, or CSIDE (seaside), is a development environment designed to help writers of interactive novels using the Choicescript scripting language, from Choice of Games LLC.
 
-The Choicescript IDE is a third party product developed indepedently by CJW (of the COG forums), and is maintained and supported by volunteers known as 'The CSIDE Team'. IN NO WAY is the ChoiceScript IDE officially endorsed by (or representative of) Choice of Games LLC. ChoiceScript is (c) Dan Fabulich. The ChoiceScript IDE is (c) Carey Williams (CJW).
+The Choicescript IDE is a third party product developed independently by CJW (of the COG forums), and is maintained and supported by volunteers known as 'The CSIDE Team'. IN NO WAY is the ChoiceScript IDE officially endorsed by (or representative of) Choice of Games LLC. ChoiceScript is (c) Dan Fabulich. The ChoiceScript IDE is (c) Carey Williams (CJW).
