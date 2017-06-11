@@ -1,6 +1,6 @@
 ---
 title: Legacy CS Development Tools
-description: "Details on a pre-launch streaming and demonstration of the ChoiceScript IDE"
+description: "Try out the legacy tools that proceeded CSIDE"
 layout: post
 theme: dark
 tags: [sample post]
