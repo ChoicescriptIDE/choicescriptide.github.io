@@ -1,6 +1,7 @@
 ---
 name: Lordirish
 bio: Hi, I'm Lordirish. I am the founder and primary sponsor of CScomp, which runs every year on the CoG forums. In the real world I drive trucks, design graphics, practice photography and study. I have been helping to test and design CSIDE since its inception.
+avatar: images/avatars/lordirish.png
 role: Old Guard
 cogforums: Lordirish
 ---
