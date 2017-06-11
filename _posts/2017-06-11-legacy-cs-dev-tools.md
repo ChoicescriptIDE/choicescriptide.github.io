@@ -1,6 +1,6 @@
 ---
 title: Legacy CS Development Tools
-description: "Try out the legacy tools that proceeded CSIDE"
+description: "Try out the legacy tools that preceded CSIDE"
 layout: post
 theme: dark
 tags: [sample post]
