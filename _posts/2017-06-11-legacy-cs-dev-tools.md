@@ -4,7 +4,6 @@ description: "Try out the legacy tools that proceeded CSIDE"
 layout: post
 theme: dark
 tags: [sample post]
-link: https://www.youtube.com/watch/yGXOy7zFi7I
 author: CJW
 image:
     feature: legacy-tools/legacy-post-header.png
