@@ -1,8 +1,5 @@
 ## Publishing & Exporting
 
-
-Ready to publish or export your project?
-
 You've been working hard on your game, and you're ready to put up a public version for beta testing. Maybe you've even finished the beta testing stage, and you're at that exciting point when you submit the finished game for publication.
 
 Choice of Games/Hosted Games LLC handles the actual publishing and selling of ChoiceScript games, and you can learn more about that [here](https://www.choiceofgames.com/looking-for-writers/ "Choice of Games - Looking for Writers"). If you're looking for a way to get your project running outside of CSIDE for public beta testing purposes, read on!

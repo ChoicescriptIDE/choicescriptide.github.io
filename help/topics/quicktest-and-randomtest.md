@@ -17,9 +17,11 @@ Quicktest runs immediately; Randomtest offers the standard list of configuration
 
 For more information on the mechanics of Quicktest and Randomtest, please see CoG's official documentation on [Testing ChoiceScript Games Automatically](https://www.choiceofgames.com/make-your-own-games/testing-choicescript-games-automatically/ "Testing ChoiceScript Games Automatically") or the community Wiki [page](http://choicescriptdev.wikia.com/wiki/Automatically_testing_your_game "Wikia Guide to Automated Testing") on the topic.
 
-**Next Topic**: [Issues](topics/issues.md "Issues")
+**Next Topic**: [Publishing and Exporting](topics/publishing-and-exporting.md "Publishing and Exporting")
 
 **Related Topics**:
+- [Issues](topics/issues.md "Issues")
+
 - [Console](topics/console.md "Console")
 
 - [Stepping](topics/stepping.md "Stepping")

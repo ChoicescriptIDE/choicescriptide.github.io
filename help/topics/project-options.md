@@ -2,7 +2,7 @@
 
 CSIDE is designed so you can easily edit one or more ChoiceScript projects, developing and testing your games in a single, streamlined environment. You can create, reorder, and run your projects, control your individual scenes, and more!
 
-This page gives a brief overview of project options. Check out [Projects](topics/projects.md "Projects") for a more detailed explanation of what projects are and how CSIDE handles them.
+This page gives a brief overview of project options.
 
 ### General Functionality
 

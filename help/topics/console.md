@@ -23,7 +23,7 @@ Anything you put into the Console command line will not affect the actual script
 
 As you play-test your game, the Console logs entries relating to variable creation and changes in variable values. You control what the Console will log by entering instructions into the Console command line, at the bottom of the Console window. When the Console is closed, a small red indicator appears beside the icon as new entries are logged in the Console's display.
 
-> Note: If you make any changes to your game files, you must run the game again before those changes are reflected in the Console, even if the changes have been saved.
+> **Note**: If you make any changes to your game files, you must run the game again before those changes are reflected in the Console, even if the changes have been saved.
 
 **Reading the Logs**: All variables created in the startup file are prefixed with 'stats'. Temp variables are prefixed with 'temps'. The name and line number of each value change is also logged for ease of reference.
 
@@ -31,7 +31,7 @@ As you play-test your game, the Console logs entries relating to variable creati
 
 **Using the \*console_ Command in Game Files**: For purposes of thorough repeat testing, you can also insert certain \*console_ commands directly into your game's scene files. See below under 'Console Commands in Scene Files' for details.
 
-> Note: Commands entered into the Console only impact the main game running in the Game Tab Panel. The Console does not affect a game running in Popout. This can be useful for comparing your current game's output against a version where you have input different variables, or made other changes via Console.
+> **Note**: Commands entered into the Console only impact the main game running in the Game Tab Panel. The Console does not affect a game running in Popout. This can be useful for comparing your current game's output against a version where you have input different variables, or made other changes via Console.
 
 
 ### Supported ChoiceScript Commands
@@ -85,7 +85,7 @@ You can use the following commands to choose which variable values the Console w
 
 **\*run**: Loads and runs the currently selected project as if you had refreshed the game with the 'Run project' icon on the project header bar.
 
-> Note that a fresh 'run' (for instance, after making and saving changes in one or more scene files) will deactivate the current Console tracking settings, meaning the required tracking commands must be entered again. Conversely, when restarting, either by using the \*restart command in Console or clicking the 'restart' button in the Game Tab panel the game repeats from the start using the default data already held in memory. This preserves both the most recently run version of the game and the current Console tracking settings.
+> **Note**: a fresh 'run' (for instance, after making and saving changes in one or more scene files) will deactivate the current Console tracking settings, meaning the required tracking commands must be entered again. Conversely, when restarting, either by using the \*restart command in Console or clicking the 'restart' button in the Game Tab panel the game repeats from the start using the default data already held in memory. This preserves both the most recently run version of the game and the current Console tracking settings.
 
 It is also possible to make a list of variables you would like the Console to track and include that list in the text of your game. This can save considerable time and streamline repeat testing. For more information, see the section below.
 
@@ -114,16 +114,23 @@ The following commands may be used in the game code, and function as described a
 
 \*console_log prints the value of a variable or valid expression into the Console at a particular point in your game. For instance, if your game reads:
 
-> *console_log "Expression for *if check under option 1"
-> *console_log (((charisma > 50) and (unrest < 50)) and (enemy_speaker < 50)) or (ally != "Unknown")
-> *choice
->     #Talk the unruly townspeople into cooperating.
->         *if (((charisma > 50) and (unrest < 50)) and (enemy_speaker < 50)) or (ally != "Unknown")
->             The townspeople are wary at first, but you talk them round and they agree to give you a horse and supplies for your journey.
->             *goto ride_on
->         *else
->             The townspeople don't like you very much. They grab some pitchforks and tell you to move along—so you do.
->             *goto no_horse
+<pre>
+ *console_log "Expression for *if check under option 1"
+ *console_log (((charisma > 50) and (unrest < 50)) and (enemy_speaker < 50)) or (ally != "Unknown")
+ *choice
+   #Talk the unruly townspeople into cooperating.
+     *if (((charisma > 50) and (unrest < 50)) and (enemy_speaker < 50)) or (ally != "Unknown")
+       The townspeople are wary at first, but you talk them round and they agree to give you a horse and supplies for your journey.
+       *goto ride_on
+     *else
+       The townspeople don't like you very much. They grab some pitchforks and tell you to move along—so you do.
+       *goto no_horse
+</pre>
+
+Assuming the first expression is true, the Console log would read:
+
+Expression for \*if check under option 1
+<br>True
 
 ### Important Notes on \*console_ Commands:
 
