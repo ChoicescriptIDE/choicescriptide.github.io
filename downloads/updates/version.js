@@ -6,10 +6,10 @@
 		"target": "https://choicescriptide.github.io/downloads/updates/targets/1003.zip"
 	},
 	"latest": {
-		"CSIDE_version": "1.0.0.4",
+		"CSIDE_version": "1.0.1",
     "nw_version": "0.21.4",
-    "desc": "1.0.0.4 - Fixes some web/dropbox version bugs and project re-ordering desync issues",
-		"target": "https://choicescriptide.github.io/downloads/updates/targets/1004.zip"
+    "desc": "1.0.1 - Pre-release update.",
+		"target": "https://choicescriptide.github.io/downloads/updates/targets/101.zip"
 	},
 	"dev": {
 		"CSIDE_version": "0.0.0",
