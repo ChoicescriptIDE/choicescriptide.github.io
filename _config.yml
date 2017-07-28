@@ -27,6 +27,8 @@ menu:
     url: '/gallery'
   - title: 'Why'
     url: '/why'
+  - title: 'Download'
+    url: 'https://github.com/ChoicescriptIDE/main/releases'
   - title: 'Discuss'
     url: '/discuss'
     submenu:
