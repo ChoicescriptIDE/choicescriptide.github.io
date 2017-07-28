@@ -11,9 +11,9 @@
     "desc": "1.0.1 - Pre-release update.",
 		"target": "https://choicescriptide.github.io/downloads/updates/targets/101.zip"
 	},
-	"dev": {
+	"development": {
 		"CSIDE_version": "0.0.0",
-    "nw_version": "0.18.2",
+    "nw_version": "0.21.4",
     "desc": "",
 		"target": ""
 	}
