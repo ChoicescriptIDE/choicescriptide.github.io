@@ -6,10 +6,10 @@
 		"target": "https://choicescriptide.github.io/downloads/updates/targets/1003.zip"
 	},
 	"latest": {
-		"CSIDE_version": "1.0.1",
+		"CSIDE_version": "1.1.0",
     "nw_version": "0.21.4",
-    "desc": "1.0.1 - Pre-release update.",
-		"target": "https://choicescriptide.github.io/downloads/updates/targets/101.zip"
+    "desc": "1.1.0 - Additional aesthetic options, latest version of ChoiceScript, bug fixes and usability tweaks.",
+		"target": "https://choicescriptide.github.io/downloads/updates/targets/110.zip"
 	},
 	"development": {
 		"CSIDE_version": "0.0.0",
