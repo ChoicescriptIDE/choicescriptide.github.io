@@ -12,9 +12,9 @@
 		"target": "https://choicescriptide.github.io/downloads/updates/targets/110.zip"
 	},
 	"development": {
-		"CSIDE_version": "0.0.0",
+		"CSIDE_version": "1.1.1",
     "nw_version": "0.21.4",
-    "desc": "",
-		"target": ""
+    "desc": "Latest ChoiceScript, package size reduction and an aesthetic bug fix.",
+		"target": "https://choicescriptide.github.io/downloads/updates/targets/111.zip"
 	}
 }
