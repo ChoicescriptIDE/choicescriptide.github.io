@@ -14,7 +14,7 @@
 	"development": {
 		"CSIDE_version": "1.1.1",
     "nw_version": "0.21.4",
-    "desc": "v1.1.1 Latest ChoiceScript, package size reduction and an aesthetic bug fix.",
+    "desc": "v1.1.1 - Latest ChoiceScript, package size reduction and an aesthetic bug fix.",
 		"target": "https://choicescriptide.github.io/downloads/updates/targets/111.zip"
 	}
 }
