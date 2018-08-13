@@ -2,6 +2,7 @@
 layout: page
 title: Discussion
 share: true
+redirect_to: "https://forum.choiceofgames.com/t/cside-the-choicescript-ide/27622"
 ---
 
 ## CSIDE Discussion
