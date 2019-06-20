@@ -6,10 +6,10 @@
 		"target": "https://choicescriptide.github.io/downloads/updates/targets/121.zip"
 	},
 	"latest": {
-		"CSIDE_version": "1.3.0",
+    "CSIDE_version": "1.3.1",
     "nw_version": "0.21.4",
-    "desc": "v1.3.0 Feature release: User dictionary, custom theme improvements, and bug fixes.",
-		"target": "https://choicescriptide.github.io/downloads/updates/targets/130.zip"
+    "desc": "v1.3.1 Hotfix: reverts changes causing corrupt metadata.",
+		"target": "https://choicescriptide.github.io/downloads/updates/targets/131.zip"
 	},
 	"development": {
     "CSIDE_version": "1.3.1",
