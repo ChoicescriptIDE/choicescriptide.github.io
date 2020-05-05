@@ -1,0 +1,31 @@
+<!doctype html>
+
+<title>CodeMirror: Python mode</title>
+<meta charset="utf-8"/>
+<link rel="stylesheet" href="/assets/codemirror/doc/docs.css">
+<link rel="stylesheet" href="/assets/codemirror/lib/codemirror.css">
+<link rel="stylesheet" href="/assets/codemirror/theme/eclipse.css">
+<script src="/assets/codemirror/codemirror.js"></script>
+<script src="/assets/codemirror/addon/edit/matchbrackets.js"></script>
+<script src="assets/codemirror/choicescript/choicescript.js"></script>
+
+<div style="width:100%;height:100%"><textarea id="code" name="code">
+*label start
+*comment SETS AMOUNT OF MINI SCENES UTILIZED IN SYSTEM 
+*comment(must not EXCEED number of mini scene labels/booleans)
+*temp total_scenes
+*set total_scenes 9
+</textarea></div>
+    <script>
+      var editor = CodeMirror.fromTextArea(document.getElementById("code"), {
+        mode: {name: "python",
+				theme: "eclipse",
+               version: 2,
+               singleLineStringErrors: false},
+        lineNumbers: true,
+        indentUnit: 4,
+        tabMode: "shift",
+        matchBrackets: true
+    });
+	var x = editor.getValue();
+</script>

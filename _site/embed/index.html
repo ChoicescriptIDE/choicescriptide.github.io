@@ -1,0 +1,116 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+<title>CSIDE [DEVELOPMENT VERSION]</title>
+<link href="css/embed.css" rel="stylesheet" type="text/css">
+<script src="js/jquery-1.10.2.min.js"></script>
+<script src="js/jquery-ui.js"></script>
+<!-- <script src="js/cside.js"></script>
+<script src="js/compile.js"></script> -->
+<!-- mygame stuff -->
+<script src="choicescript/scene.js"></script>
+<script src="choicescript/navigator.js"></script>
+<script src="choicescript/util.js"></script>
+<!-- mygame stuff -->
+<link href="choicescript/alertify.css" rel="stylesheet" type="text/css">
+<link href="choicescript/alertify.bootstrap.css" rel="stylesheet" type="text/css">
+<script src="choicescript/alertify.min.js"></script>
+<!-- CodeMirror -->
+<meta charset="utf-8"/>
+<link rel="stylesheet" href="codemirror/lib/codemirror.css">
+<link rel="stylesheet" href="codemirror/theme/choicescript.css">
+<script src="codemirror/lib/codemirror.js"></script>
+<script src="codemirror/addon/edit/matchbrackets.js"></script>
+<script src="codemirror/mode/choicescript/choicescript.js"></script>
+<link rel="stylesheet" href="codemirror/theme/ambiance.css">
+<!-- CodeMirror -->
+<body>
+	<div class="main-wrap">
+		<div id="page-content-wrapper">
+			<div id="headbar">
+				<ul>
+					<li>
+						<a href="#" onclick="document.getElementById('result-wrap').style.display = 'none'; document.getElementById('editor-wrap').style.display = 'block'; document.getElementsByClassName('selected')[0].className = ''; this.className = 'selected';" class="selected">Code</a>
+					</li>
+					<li>
+						<a href="#" onclick="document.getElementById('result-wrap').style.display = 'block'; document.getElementById('editor-wrap').style.display = 'none'; document.getElementsByClassName('selected')[0].className = ''; this.className = 'selected'; document.getElementById('result-frame').contentWindow.location.reload();" >Result</a>
+					</li>
+				</ul>
+				<img id="logo" src="img/ui/csidelogo.png"/>
+			</div>
+			<div id="result-wrap">
+				<iframe id="result-frame" src="run-index.html"></iframe>
+			</div>
+			<div id="editor-wrap">
+				<textarea id="code" name="code"></textarea>
+			</div>
+			<script>
+			  var scenes = {};
+			  var savedScenes = {};
+			  var editor = CodeMirror.fromTextArea(document.getElementById("code"), {
+				mode: {name: "choicescript",
+					   version: 2,
+					   singleLineStringErrors: false},
+				//readOnly: "nocursor",
+				readOnly: false,
+				lineNumbers: true,
+				lineWrapping: true,
+				tabSize: 4,
+				indentUnit: 4,
+				indentWithTabs: true,
+				matchBrackets: true,
+				theme: "ambiance"
+			});
+			editor.setValue("Loading...");
+			var charWidth = editor.defaultCharWidth(), basePadding = 4;
+			editor.on("renderLine", function(cm, line, elt) {
+				var off = CodeMirror.countColumn(line.text, null, cm.getOption("tabSize")) * charWidth;
+				var pixelTabSize = 8 * editor.options.tabSize;
+				var indentLevel = off / pixelTabSize;
+				var leftMargin = pixelTabSize * indentLevel;
+				elt.style.paddingLeft = leftMargin + "px";
+				elt.style.textIndent = "-" + (leftMargin / (indentLevel + 1)) + "px";
+			});
+			editor.refresh(); 
+			</script>
+			<script>
+				function getQueryParams() {
+					var qs =  location.search.split("+").join(" ");
+
+					var params = {}, tokens,
+						re = /[?&]?([^=]+)=([^&]*)/g;
+						
+					while (tokens = re.exec(qs)) {
+						params[decodeURIComponent(tokens[1])]
+							= decodeURIComponent(tokens[2]);
+					}
+
+					return params;
+				}
+				var x = getQueryParams();
+				/*if (x.url) {
+					$.get( x.url, function( data ) {
+						var a= document.createElement('a');
+						a.href= x.url;
+						var filename= a.pathname.split('/').pop(); // filename.php
+						filename = filename.substring(0, filename.lastIndexOf("."));
+						editor.setValue(data);
+					});	
+				}*/
+				if (x.readOnly === "true") {
+					editor.options.readOnly = true;
+				}
+				window.onmessage = function(e){
+				  editor.setValue("Receiving...");
+				  if ( e.origin !== "http://choicescriptdev.wikia.com" ) {
+					return;
+					editor.setValue("Only allowed on choicescriptdev.wikia");
+				  }
+
+				  editor.setValue(e.data);
+				}
+			</script>
+		</div>
+	</div>
+</body>
+</html>
