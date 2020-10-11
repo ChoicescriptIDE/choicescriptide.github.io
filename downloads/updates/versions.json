@@ -1,0 +1,26 @@
+{
+  "stable": {
+    "CSIDE_version": "0.0.0",
+    "nw_version": "0.49.0",
+    "desc": "",
+    "target": ""
+  },
+  "latest": {
+    "CSIDE_version": "0.0.0",
+    "nw_version": "0.49.0",
+    "desc": "",
+    "target": ""
+  },
+  "development": {
+    "CSIDE_version": "1.4.0.1",
+    "nw_version": "0.49.0",
+    "desc": "1.4.0 dev test version introducing the Monaco editor",
+    "target": "https://choicescriptide.github.io/downloads/updates/targets/1401.zip"
+  },
+  "accessible": {
+    "CSIDE_version": "0.0.0",
+    "nw_version": "0.21.4",
+    "desc": "",
+    "target": ""
+  }
+}
