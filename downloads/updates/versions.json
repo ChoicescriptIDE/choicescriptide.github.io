@@ -12,10 +12,10 @@
     "target": "https://choicescriptide.github.io/downloads/updates/targets/preview141.zip"
   },
   "development": {
-    "CSIDE_version": "1.4.1",
+    "CSIDE_version": "1.4.2",
     "nw_version": "0.49.0",
     "desc": "Bug fix for QuickTest",
-    "target": "https://choicescriptide.github.io/downloads/updates/targets/preview141.zip"
+    "target": "https://choicescriptide.github.io/downloads/updates/targets/preview142.zip"
   },
   "accessible": {
     "CSIDE_version": "0.0.0",
