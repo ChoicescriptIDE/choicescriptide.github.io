@@ -1,0 +1,32 @@
+*bug cslib_util is a cslib module and must not be accessed directly
+
+*comment REPEAT
+*comment ------------------------------
+*comment Repeat execution of a given
+*comment subroutine a specified number of times.
+*comment The given routine can expect to be
+*comment passed one parameter:
+*comment - A number denoting the current iteration
+*comment
+*comment E.g.:
+*comment	*label print_fives
+*comment	*params n
+*comment	*if ((n modulo 5) = 0)
+*comment		Five: ${n}
+*comment	*return
+*comment ------------------------------
+*comment 	params:
+*comment		p_scene(string): the name of the scene containing the subroutine
+*comment		p_label(string): the name of the subroutine label
+*comment		count(number): the number of times to repeat the subroutine
+*label repeat
+*params p_scene p_label count
+*if (param_count < 3)
+	*bug cslib.util.repeat: expected three parameters (target_scene, target_label, count)
+*temp n 1
+*label _repeat_loop
+*if (n <= count)
+	*gosub_scene {p_scene} {p_label} n
+	*set n + 1
+	*goto _repeat_loop
+*return

@@ -1,0 +1,368 @@
+*bug "cslib_string is a cslib module and must not be accessed directly"
+
+*comment static reference table for converting
+*comment alphabet letters to lowercase
+*label _lowercase_init
+*temp lowercase_A "a"
+*temp lowercase_B "b"
+*temp lowercase_C "c"
+*temp lowercase_D "d"
+*temp lowercase_E "e"
+*temp lowercase_F "f"
+*temp lowercase_G "g"
+*temp lowercase_H "h"
+*temp lowercase_I "i"
+*temp lowercase_J "j"
+*temp lowercase_K "k"
+*temp lowercase_L "l"
+*temp lowercase_M "m"
+*temp lowercase_N "n"
+*temp lowercase_O "o"
+*temp lowercase_P "p"
+*temp lowercase_Q "q"
+*temp lowercase_R "r"
+*temp lowercase_S "s"
+*temp lowercase_T "t"
+*temp lowercase_U "u"
+*temp lowercase_V "v"
+*temp lowercase_W "w"
+*temp lowercase_X "x"
+*temp lowercase_Y "y"
+*temp lowercase_Z "z"
+*return
+
+
+*comment CONCAT
+*comment ------------------------------
+*comment Returns a concatenated string formed of
+*comment at least two given strings, joined by
+*comment a given seperator.
+*comment ------------------------------
+*comment 	params:
+*comment        p_concat_sep(string): a value to insert between strings
+*comment		param_n(string): a string value to concatenate
+*comment		…
+*comment	returns: 
+*comment		(string): the concatenated string
+*label concat
+*params p_concat_sep
+*comment param2+ strings to concatenate
+*if (param_count < 3)
+	*bug cslib.string.concat: expected at least three parameters (seperator, string, string, ...)
+*temp concat_param_num 2
+*temp concat_result ""
+*label _concat_loop
+*if (concat_param_num < param_count)
+	*set concat_result &param[concat_param_num]
+	*set concat_result &p_concat_sep
+	*set concat_param_num + 1
+	*goto _concat_loop
+*comment last item should not have a separator
+*set concat_result &param[concat_param_num]
+*set cslib_ret concat_result
+*return
+
+*comment LOWERCASE
+*comment ------------------------------
+*comment Returns the given string converted to all lowercase.
+*comment The string should only contain characters from the
+*comment standard latin alphabet (A-Z) and spaces.
+*comment ------------------------------
+*comment 	params:
+*comment		p_string(string): the string to convert to lowercase
+*comment	returns: 
+*comment		(string): the all lowercase form of the original string
+*label lowercase
+*params p_string
+*gosub _lowercase_init
+*comment lowercase all
+*temp string_len length(p_string)
+*temp lower_string ""
+*temp c 1
+*label _lowercase_loop
+*if (c <= string_len)
+	*if ((p_string#c) != " ")
+		*set lower_string & (lowercase[p_string#c])
+	*else
+		*set lower_string & " "
+	*set c + 1
+	*goto _lowercase_loop
+*set cslib_ret lower_string
+*return
+
+
+*comment SUBSTRING
+*comment ------------------------------
+*comment Returns the portion of a string 
+*comment (substring) between two given points.
+*comment ------------------------------
+*comment 	params:
+*comment		p_str(string): the original string
+*comment		p_s_index(string): the start character of the substring (inclusive)
+*comment		p_e_index(string): the end character of the substring (inclusive)
+*comment	returns: 
+*comment		(string): the portion of the string between p_s_index and p_e_index (inclusive)
+*label substring
+*params p_str p_s_index p_e_index
+*if (p_str = "")
+	*bug cslib.string.substring: p_str must not be empty
+*if (p_s_index < 1)
+	*bug cslib.string.substring: start index (${p_s_index}) can not be less than 1
+*if (p_s_index > p_e_index)
+	*bug cslib.string.substring: start index (${p_s_index}) should be less than or equal to end index (${p_e_index})
+*if (p_e_index > length(p_str))
+	*bug cslib.string.substring: end index (${p_e_index}) can not be greater than the length of string (${length(p_str)})
+*temp substring_char p_s_index
+*temp substring_result ""
+*label _substring_loop
+*if (substring_char <= p_e_index)
+	*set substring_result &(p_str#substring_char)
+	*set substring_char + 1
+	*goto _substring_loop
+*set cslib_ret substring_result
+*return
+
+
+*comment FIND
+*comment ------------------------------
+*comment Returns a positive number (the start char) of the
+*comment first match of a specified substring within a string.
+*comment ------------------------------
+*comment 	params:
+*comment		p_str(string): the string to search for p_find_str
+*comment		p_find_str(string): the string value to search for
+*comment	returns: 
+*comment		(number): the first char of the first match, or 0 (no match)
+*label find
+*params p_str p_find_str
+*temp p_str_len length(p_str)
+*temp p_find_str_len length(p_find_str)
+*if (p_find_str = p_str)
+	*set cslib_ret 1
+	*return
+*if (p_find_str_len > p_str_len)
+	*set cslib_ret 0
+	*return
+*temp find_e_index 0
+*temp find_s_index 1
+*label _find_loop
+*set find_e_index (find_s_index + (p_find_str_len - 1))
+*if (find_e_index <= p_str_len)
+	*gosub_scene cslib_string substring p_str find_s_index (find_s_index + (p_find_str_len - 1))
+	*if (cslib_ret = p_find_str)
+		*set cslib_ret find_s_index
+		*return
+	*set find_s_index + 1
+	*goto _find_loop
+*set cslib_ret 0
+*return
+
+
+*comment REPLACE
+*comment ------------------------------
+*comment Returns a given string with all occurences of
+*comment a specified substring replaced with a new substring.
+*comment ------------------------------
+*comment 	params:
+*comment		p_str(string): the string to modify
+*comment		p_old_str(string): the string value to replace
+*comment		p_new_str(string): the string value to replace instances of p_old_str with
+*comment	returns: 
+*comment		(string): the modified string
+*label replace
+*params p_str p_old_str p_new_str
+*temp p_str_len length(p_str)
+*temp p_old_str_len length(p_old_str)
+*temp replace_result ""
+*temp replace_s_index 1
+*temp replace_to_search_str ""
+*label _replace_loop
+*comment grab the unsearched part of the original string, and search it
+*gosub_scene cslib_string substring p_str replace_s_index p_str_len
+*set replace_to_search_str cslib_ret
+*gosub_scene cslib_string find (replace_to_search_str) p_old_str
+*if (cslib_ret > 0)
+	*temp replace_r (cslib_ret - 1)
+	*comment get the searched str up until the 'matched' substring
+	*if (replace_r > 0)
+		*gosub_scene cslib_string substring replace_to_search_str (replace_s_index - length(replace_result)) replace_r
+		*set replace_result &cslib_ret
+	*else
+		*set replace_result &""
+	*comment add the 'replaced' string instead
+	*set replace_result &p_new_str
+	*comment continue search _after_ the last match
+	*set replace_s_index replace_s_index + ((replace_r + p_old_str_len))
+	*goto _replace_loop
+*set replace_result &replace_to_search_str
+*set cslib_ret replace_result
+*return
+
+
+*comment INDEX
+*comment ------------------------------
+*comment Returns the position of the first occurence of a
+*comment given character (string of length 1) in the given string.
+*comment If the character isn't found, 0 is returned.
+*comment Inputs of a length not equal to 1 will cause an error to be thrown.
+*comment ------------------------------
+*comment 	params:
+*comment		p_str(string): a string in which to search for p_char
+*comment		p_char(string): a character (str of length 1) to search for
+*comment	returns: 
+*comment		(number): the position of the first match of p_char in p_str, or 0 (no match)
+*label index
+*params p_str p_char
+*if (length(p_char) != 1)
+	*bug p_char should be a single character, not "${p_char}"
+*temp c 1
+*temp str_len length(p_str)
+*label _index_loop
+*if (c <= str_len)
+	*if (p_str#c) = p_char
+		*set cslib_ret c
+		*return
+	*set c + 1
+	*goto _index_loop
+*set cslib_ret 0
+*return
+
+
+*comment REVERSE
+*comment ------------------------------
+*comment Returns the given string reversed.
+*comment ------------------------------
+*comment 	params:
+*comment		p_str(string): a string to reverse
+*comment	returns: 
+*comment		(string): the reversed string
+*label reverse
+*params p_str
+*temp reversed_string ""
+*temp string_len length(p_str)
+*temp c string_len
+*label _reverse_loop
+*if (c >= 1)
+	*set reversed_string & (p_str#c)
+	*set c - 1
+	*goto _reverse_loop
+*set cslib_ret reversed_string
+*return
+
+
+*comment CONTAINS
+*comment ------------------------------
+*comment Checks if the given string contains
+*comment ANY characters in a given list.
+*comment ------------------------------
+*comment 	params:
+*comment		p_string(string): the string to check
+*comment        p_char_list(string): a string of the characters to check against p_string
+*comment	returns:
+*comment		(boolean): true if p_string contains one or more characters in p_char_list, else false
+*label contains
+*params p_string p_char_list
+*if (p_string = "") or (p_char_list = "")
+	*set cslib_ret false
+	*return
+*temp string_index length(p_string)
+*temp char_list_len length(p_char_list)
+*temp char_list_index char_list_len
+*label _contains_loop
+*if (string_index >= 1)
+	*label _contains_char_list_loop
+	*if ((p_string#string_index) = (p_char_list#char_list_index))
+		*set cslib_ret true
+		*return
+	*elsif (char_list_index > 1)
+		*set char_list_index -1
+		*goto _contains_char_list_loop
+	*set string_index -1
+	*set char_list_index char_list_len
+	*goto _contains_loop
+*set cslib_ret false
+*return
+
+
+*comment CONSISTS_OF
+*comment ------------------------------
+*comment Checks if the given string consists
+*comment ONLY of characters in a given list.
+*comment ------------------------------
+*comment 		params:
+*comment 			p_string(string): the string to check for the presence of the given characters. 
+*comment 			p_char_list(string): a string of characters allowed in the given string
+*comment 		returns:
+*comment 			(boolean): true if p_string consists only of chars in p_char_list, else false
+*label consists_of
+*params p_string p_char_list
+*set cslib_ret true
+*if (p_char_list = "")
+	*bug cslib_string.consists_of: Character list must not be empty.
+*if (p_string = "")
+	*set cslib_ret false
+	*return
+*temp p_string_len length(p_string)
+*temp p_char_list_len length(p_char_list)
+*temp p_string_index 1
+*label _consists_of_string_loop
+*temp p_char_list_index 1
+*if (p_string_index <= p_string_len)
+	*label _consists_of_char_list_loop
+	*if (p_char_list_index <= p_char_list_len)
+		*if ((p_string#p_string_index) = (p_char_list#p_char_list_index))
+			*set p_string_index +1
+			*goto _consists_of_string_loop
+		*set p_char_list_index +1
+		*goto _consists_of_char_list_loop
+	*set cslib_ret false
+*return
+
+
+*comment EXTRACT_TOKENS
+*comment ------------------------------
+*comment Split a given string using a separator.
+*comment The tokens are stored in a given array, up to its _max.
+*comment The array's _count will be updated with the number of valid items.
+*comment Note that, if the array is too small to contain all values,
+*comment only _max will be stored, _count will be equal _max and
+*comment cslib_ret will have the full token count.
+*comment ------------------------------
+*comment 		params:
+*comment 			p_source(string): the string to be split.
+*comment 			p_separator(string): a character upon which to split the string.
+*comment			p_array(string): the array name/reference (prefix)
+*comment 		returns:
+*comment 			(number): the number of tokens in the string.
+*label extract_tokens
+*params p_source p_separator p_array
+*if p_separator = ""
+	*bug cslib_string.extract_tokens: Separator should not be empty in extract_tokens.
+*if length(p_separator) > 1
+	*bug cslib_string.extract_tokens: Separator should be a single char in extract_tokens, not: '${p_separator}'.
+*temp source_len length(p_source)
+*temp array_max {p_array & "_max"}
+*set {p_array & "_count"} 0
+*if source_len = 0
+	*set cslib_ret 0
+	*return
+*temp source_idx 1
+*temp array_idx 1
+*temp target (p_array & "_") & array_idx
+*set {target} ""
+*label _source_loop
+*temp next_char p_source#source_idx
+*if next_char = p_separator
+	*set array_idx +1
+	*set target (p_array & "_") & array_idx
+	*if array_idx <= array_max
+		*set {target} ""
+*else
+	*if array_idx <= array_max
+		*set {target} &next_char
+		*set {p_array & "_count"} array_idx
+*set source_idx +1
+*if source_idx <= source_len
+	*goto _source_loop
+*set cslib_ret array_idx
+*return

@@ -1,0 +1,189 @@
+*bug cslib_number is a cslib module and must not be accessed directly
+
+*comment IS_NUMBER
+*comment ------------------------------
+*comment Determines if a given string is a number.
+*comment ------------------------------
+*comment 	params:
+*comment		p_string(string): the value to test
+*comment	returns: 
+*comment		(boolean) true if p_string is a number, else false
+*label is_number
+*params p_string
+*temp input_len length(p_string)
+*temp n 1
+*temp result true
+*label _is_number_loop
+*if (n <= input_len)
+	*gosub_scene cslib_number _char_is_number (p_string#n)
+	*if not(cslib_ret)
+		*set result false
+		*goto _is_number_end
+	*set n + 1
+	*goto _is_number_loop
+*label _is_number_end
+*set cslib_ret result
+*return
+
+
+*comment ARE_NUMBERS
+*comment ------------------------------
+*comment Determines if any number of given parameters are ALL numbers.
+*comment ------------------------------
+*comment 	params:
+*comment		param_n(any): a value to test
+*comment	returns: 
+*comment		(boolean): true if ALL values passed were numbers, else false
+*label are_numbers
+*params
+*temp n 1
+*temp result true
+*label _are_numbers_loop
+*if (n <= param_count)
+	*gosub_scene cslib_number is_number param[n]
+	*if not(cslib_ret)
+		*set result false
+		*goto _are_numbers_end
+	*set n + 1
+	*goto _are_numbers_loop
+*label _are_numbers_end
+*set cslib_ret result
+*return
+
+
+*comment MEAN
+*comment ------------------------------
+*comment Returns the mean (average) of the given numbers.
+*comment ------------------------------
+*comment 	params:
+*comment		param_n(number): a number to include in the calculation
+*comment	returns: 
+*comment		(number): the mean of the given numbers
+*label mean
+*params
+*if (param_count < 2)
+	*bug expected at least two parameters (number, number2, ...)
+*temp sum 0
+*temp n 1
+*label _mean_loop
+*if (n <= param_count)
+	*set sum + param[n]
+	*set n + 1
+	*goto _mean_loop
+*set cslib_ret (sum / param_count)
+*return
+
+
+*comment MAX
+*comment ------------------------------
+*comment Returns the largest of a set of given numbers.
+*comment ------------------------------
+*comment 	params:
+*comment		param_n(number): a number
+*comment	returns: 
+*comment		(number): the largest number
+*label max
+*params
+*if (param_count < 2)
+	*bug expected at least two parameters (number, number2, ...)
+*temp current param[1]
+*temp n 2
+*label _max_loop
+*if (n > param_count)
+	*set cslib_ret current
+	*return
+*if (param[n] > current)
+	*set current param[n]
+*set n + 1
+*goto _max_loop
+
+
+*comment MIN
+*comment ------------------------------
+*comment Returns the smallest of a set of given numbers.
+*comment ------------------------------
+*comment 	params:
+*comment		param_n(number): a number
+*comment	returns: 
+*comment		(number): the smallest number
+*label min
+*params
+*if (param_count < 2)
+	*bug expected at least two parameters (number, number2, ...)
+*temp current param[1]
+*temp n 2
+*label _min_loop
+*if (n > param_count)
+	*set cslib_ret current
+	*return
+*if (param[n] < current)
+	*set current param[n]
+*set n + 1
+*goto _min_loop
+
+
+*comment MAX_STAT
+*comment ------------------------------
+*comment Returns the variable name of the largest of a set of given stats.
+*comment ------------------------------
+*comment 	params:
+*comment		param_n(string): the name of a stat variable
+*comment	returns: 
+*comment		(string): the variable name of the stat with the largest value
+*label max_stat
+*params
+*if (param_count < 2)
+	*bug expected at least two parameters (number, number2, ...)
+*temp current param[1]
+*temp n 2
+*label _max_stat_loop
+*if (n > param_count)
+	*set cslib_ret current
+	*return
+*if ({param[n]} > {current})
+	*set current param[n]
+*set n + 1
+*goto _max_stat_loop
+
+
+*comment MIN_STAT
+*comment ------------------------------
+*comment Returns the variable name of the smallest of a set of given stats.
+*comment ------------------------------
+*comment 	params:
+*comment		param_n(string): the name of a stat variable
+*comment	returns: 
+*comment		(string): the variable name of the stat with the smallest value
+*label min_stat
+*params
+*if (param_count < 2)
+	*bug expected at least two parameters (number, number2, ...)
+*temp current param[1]
+*temp n 2
+*label _min_stat_loop
+*if (n > param_count)
+	*set cslib_ret current
+	*return
+*if ({param[n]} < {current})
+	*set current param[n]
+*set n + 1
+*goto _min_stat_loop
+
+
+*label _char_is_number
+*params p_char
+*if (length(p_char) != 1)
+	*bug TODO
+*temp nums "0123456789"
+*temp n 1
+*temp result false
+*label _char_is_number_loop
+*if (n <= 10)
+	*if p_char = (nums#n)
+		*set result true
+		*goto _char_is_number_end
+	*set n + 1
+	*goto _char_is_number_loop
+*label _char_is_number_end
+*set cslib_ret result
+*return

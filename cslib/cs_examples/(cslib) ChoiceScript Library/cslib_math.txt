@@ -1,0 +1,164 @@
+*bug cslib_math is a cslib module and must not be accessed directly.
+
+*comment PI
+*comment ------------------------------
+*comment Returns an approximation of the constant PI.
+*comment ------------------------------
+*comment	returns: 
+*comment		(number) PI
+*label pi
+*set cslib_ret 3.1415926535
+*return
+
+
+*comment SIN
+*comment ------------------------------
+*comment Determines the sine of an angle (in radians).
+*comment ------------------------------
+*comment 	params:
+*comment		p_angle(number): an angle
+*comment	returns: 
+*comment		(number) the sine of the given angle
+*label sin
+*params p_angle
+*comment These are the coefficient of the Taylor series for sine.
+*comment In order to maintain everything encapsulated, these are stored
+*comment as *temp, which means we can't use *gosub_scene below.
+*temp coeff_0 0
+*temp coeff_1 (1/1)
+*temp coeff_2 0
+*temp coeff_3 (0-(1/6))
+*temp coeff_4 0
+*temp coeff_5 (1/120)
+*temp coeff_6 0
+*temp coeff_7 (0-(1/5040))
+*temp coeff_8 0
+*temp coeff_9 (1/362880)
+*temp coeff_10 0
+*temp coeff_11 (0-(1/39916800))
+*temp coeff_12 0
+*temp coeff_13 (1/6227020800)
+*temp coeff_14 0
+*temp coeff_15 (0-(1/1307674368000))
+*temp coeff_16 0
+*temp coeff_17 (1/355687428096000)
+*temp coeff_18 0
+*temp coeff_19 (0-(1/121645100408832000))
+*comment This will use the coefficients to compute the series. To be able
+*comment to use them, we can't use *gosub_scene. This is a small exception
+*comment to the design patterns of cslib.
+*goto _taylor
+
+
+*comment COS
+*comment ------------------------------
+*comment Determines the cosine of an angle (in radians).
+*comment ------------------------------
+*comment 	params:
+*comment		p_angle(number): an angle
+*comment	returns: 
+*comment		(number) the cosine of the given angle
+*label cos
+*params p_angle
+*temp coeff_0 (1/1)
+*temp coeff_1 0
+*temp coeff_2 (0-(1/2))
+*temp coeff_3 0
+*temp coeff_4 (1/24)
+*temp coeff_5 0
+*temp coeff_6 (0-(1/720))
+*temp coeff_7 0
+*temp coeff_8 (1/40320)
+*temp coeff_9 0
+*temp coeff_10 (0-(1/3628800))
+*temp coeff_11 0
+*temp coeff_12 (1/479001600)
+*temp coeff_13 0
+*temp coeff_14 (0-(1/87178291200))
+*temp coeff_15 0
+*temp coeff_16 (1/20922789888000)
+*temp coeff_17 0
+*temp coeff_18 (0-(1/6402373705728000))
+*temp coeff_19 0
+*goto _taylor
+
+
+*comment SINH
+*comment ------------------------------
+*comment Determines the hyperbolic sine of an angle (in radians).
+*comment ------------------------------
+*comment 	params:
+*comment		p_angle(number): an angle
+*comment	returns: 
+*comment		(number) the hyperbolic sine of the given angle
+*label sinh
+*params p_angle
+*temp coeff_0 0
+*temp coeff_1 (1/1)
+*temp coeff_2 0
+*temp coeff_3 (1/6)
+*temp coeff_4 0
+*temp coeff_5 (1/120)
+*temp coeff_6 0
+*temp coeff_7 (1/5040)
+*temp coeff_8 0
+*temp coeff_9 (1/362880)
+*temp coeff_10 0
+*temp coeff_11 (1/39916800)
+*temp coeff_12 0
+*temp coeff_13 (1/6227020800)
+*temp coeff_14 0
+*temp coeff_15 (1/1307674368000)
+*temp coeff_16 0
+*temp coeff_17 (1/355687428096000)
+*temp coeff_18 0
+*temp coeff_19 (1/121645100408832000)
+*goto _taylor
+
+
+*comment COSH
+*comment ------------------------------
+*comment Determines the hyperbolic cosine of an angle (in radians).
+*comment ------------------------------
+*comment 	params:
+*comment		p_angle(number): an angle
+*comment	returns: 
+*comment		(number) the hyperbolic cosine of the given angle
+*label cosh
+*params p_angle
+*temp coeff_0 (1/1)
+*temp coeff_1 0
+*temp coeff_2 (1/2)
+*temp coeff_3 0
+*temp coeff_4 (1/24)
+*temp coeff_5 0
+*temp coeff_6 (1/720)
+*temp coeff_7 0
+*temp coeff_8 (1/40320)
+*temp coeff_9 0
+*temp coeff_10 (1/3628800)
+*temp coeff_11 0
+*temp coeff_12 (1/479001600)
+*temp coeff_13 0
+*temp coeff_14 (1/87178291200)
+*temp coeff_15 0
+*temp coeff_16 (1/20922789888000)
+*temp coeff_17 0
+*temp coeff_18 (1/6402373705728000)
+*temp coeff_19 0
+*goto _taylor
+
+
+*comment The common code to compute the value of the Taylor series,
+*comment given p_angle and the coeff_N temp array.
+*label _taylor
+*temp idx 0
+*temp x_acc 1
+*set cslib_ret 0
+*label _taylor_loop
+*if (idx > 19)
+    *return
+*set cslib_ret +(coeff[idx] * x_acc)
+*set x_acc *p_angle
+*set idx +1
+*goto _taylor_loop

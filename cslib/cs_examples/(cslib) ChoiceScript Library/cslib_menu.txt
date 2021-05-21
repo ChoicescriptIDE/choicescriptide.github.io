@@ -1,0 +1,320 @@
+*bug cslib_menu is a cslib module and must not be accessed directly
+
+*comment --------------------------------------
+*comment ###  MENU / CHOICE module: README ###
+*comment --------------------------------------
+*comment 	This module allows for quick and tidy presentation of complicated
+*comment 	"choices" or menus in ChoiceScript.
+*comment 
+*comment 	Unless otherwise noted, all the routines in this module immediately display/render
+*comment 	the menu/choice to the screen, and support and unlimited amount of options, via automatic pagination.
+*comment 
+*comment # Assumptions
+*comment 	In order for this module to work properly, some assumptions must be adhered to:
+*comment	- "arrays" are a series of variables that follow the "name_N" pattern, e.g. myvar_1, myvar_2
+*comment 	- arrays must start from index 1 (not 0)
+*comment	- all arrays must be global (i.e. *create not *temp)
+*comment	- all arrays must have a name_count variable that denotes the length of the array, inclusive (e.g. myvar_count)
+*comment	- an array must not have any gaps: e.g. myvar_1, my_var2, my_var4 (with no myvar_3)
+*comment	- "prefix" (or array ref) values should not include the underscore: '_' (i.e. "myvar" is the prefix, not "myvar_")
+*comment 
+
+
+*comment BUILD_ARRAY
+*comment ------------------------------
+*comment Renders a choice menu from a given array.
+*comment 
+*comment 	Example usage:
+*comment		*create myvar_1 "Option 1"
+*comment		*create myvar_2 "Option 2"
+*comment		...
+*comment		*create myvar_len 5
+*comment		*gosub_scene cslib_menu build_array "myvar"
+*comment ------------------------------
+*comment 	params:
+*comment		p_prefix(string): the array name/reference (prefix)
+*comment		p_cancel(boolean): include a 'cancel' option
+*comment	returns: 
+*comment		(number): a positive number indicating the selected option (or 0, if cancel is selected)
+*label build_array
+*params p_prefix p_cancel
+*gosub _build_array_common p_prefix p_cancel "" ""
+*gosub _render_choice
+*return
+
+
+*comment BUILD_ARRAY_FILTER
+*comment ------------------------------
+*comment Renders a choice menu from a given array,
+*comment but filters the options based on a given
+*comment condition routine.
+*comment
+*comment The given condition routine should expect
+*comment to be passed three parameters:
+*comment - The element value
+*comment - The element's source array index
+*comment - The name of the source array
+*comment
+*comment And should return a boolean (true = include in the menu).
+*comment E.g.:
+*comment    *label is_blank
+*comment    *params value index array_ref
+*comment    *set cslib_ret true
+*comment    *if (value = "")
+*comment        *set cslib_ret false
+*comment    *return
+*comment ------------------------------
+*comment 	params:
+*comment		p_prefix(string): the array name/reference (prefix)
+*comment		p_cancel(boolean): include a 'cancel' option
+*comment		p_scene(string): the name of the scene containing the condition routine
+*comment		p_label(string): the name of the label denoting the start of the routine
+*label build_array_filter
+*params p_prefix p_cancel p_scene p_label
+*gosub _build_array_common p_prefix p_cancel p_scene p_label
+*gosub _render_choice
+*return
+
+
+*comment BUILD_SIMPLE
+*comment ------------------------------
+*comment Renders a choice menu containing the given strings as individual options.
+*comment 
+*comment 	Example usage:
+*comment		*gosub_scene cslib_menu build_simple "Option 1" "Option 2" "Option 3" ...
+*comment ------------------------------
+*comment 	params:
+*comment		param_n(string): a series of menu options
+*comment	returns: 
+*comment		(number): a positive number indicating the selected option
+*label build_simple
+*params
+*temp allow_cancel false
+*gosub _build_simple_common
+*gosub _render_choice
+*return
+
+
+*comment BUILD_SIMPLE_CANCEL
+*comment ------------------------------
+*comment Renders a choice menu containing the given strings as individual options
+*comment in addition to a cancellation option.
+*comment 
+*comment 	Example usage:
+*comment		*gosub_scene cslib_menu build_simple_cancel "Option 1" "Option 2" "Option 3" ...
+*comment ------------------------------
+*comment 	params:
+*comment		param_n(string): a series of menu options
+*comment	returns: 
+*comment		(number): a positive number indicating the selected option, or 0 (if cancel was selected)
+*label build_simple_with_cancel
+*params
+*temp allow_cancel true
+*gosub _build_simple_common
+*gosub _render_choice
+*return
+
+
+*comment ::: INTERNAL FUNCTIONS BELOW (DO NOT CALL DIRECTLY!) :::
+*label _build_simple_common
+*temp prefix "param_"
+*temp t_scene ""
+*temp t_label ""
+*gosub _init_state
+*gosub _populate_page
+*return
+
+
+*label _build_array_common
+*params p_prefix p_cancel p_scene p_label
+*temp t_scene p_scene
+*temp t_label p_label
+*temp prefix p_prefix&"_"
+*gosub _init_state
+*temp allow_cancel p_cancel
+*gosub _populate_page
+*if cslib_ret = "catch"
+	*return
+*return
+
+
+*label _init_state
+*comment determines the next/prev option position for smoother navigation
+*temp next_pref true
+*comment determines the direction in which options are displayed
+*temp const_invert_order false
+*comment the max amount of options to display per 'page'
+*temp const_items_per_page 5
+*if (const_items_per_page > 10)
+	*bug cslib_menu._init_state: const_items_per_page cannot be greater than 10
+*comment the text displayed on the cancel/return button
+*temp const_cancel_text "[return]"
+*temp arr_count {prefix&"count"}
+*if (t_scene != "")
+	*gosub _count
+	*temp store arr_count
+	*set arr_count cslib_ret
+*temp page_count "@{(arr_count <= const_items_per_page) 1|${(arr_count / const_items_per_page)}}"
+*if ((page_count modulo 1) > 0)
+	*set page_count ((page_count - (page_count modulo 1)) + 1)
+*temp cur_page 1
+*if (t_scene != "")
+	*set arr_count store
+*return
+
+*label _populate_page
+*comment populate the choice items and check the guards
+*temp page_item_count 0
+*temp slot 1
+*gosub _init_option_vars
+*temp offset (slot+(const_items_per_page * (cur_page -1)))
+*if (t_scene != "")
+	*temp ignore (offset - 1)
+	*set offset 1
+*label _populate_page_loop
+*if (slot <= const_items_per_page)
+	*set option_guard[slot] (arr_count >= offset) and (const_items_per_page >= slot)
+	*if (option_guard[slot])
+		*if (t_scene != "")
+			*gosub_scene {t_scene} {t_label} {prefix&offset} offset
+			*if not(cslib_ret)
+				*set offset + 1
+				*goto _populate_page_loop
+			*elseif (ignore > 0)
+				*set ignore - 1
+				*set offset + 1
+				*goto _populate_page_loop
+		*set page_item_count + 1
+		*set option_text[slot] {prefix&offset}
+		*set option_ret_val[slot] offset
+	*set offset + 1
+	*set slot + 1
+	*goto _populate_page_loop
+*return
+
+*label _render_choice
+*comment catch 'no selectable options' errors
+*if (page_item_count = 0) and not(allow_cancel)
+	*bug cslib_menu._populate_page: menu construction failed as there were 0 matching items — consider allowing cancellation
+*comment render the choice to the screen
+*fake_choice
+	*if (page_count > 1)
+		*comment when there is more than one page, display a page indicator
+		*selectable_if (false) # Page (${cur_page} / ${page_count})
+			*bug cslib_menu._render_choice: this option should not be selectable
+	*if (((cur_page < page_count) and (next_pref)) or ((cur_page = 1) and (page_count > 1)))
+		#[i]Next -->[/i]
+			*set next_pref true
+			*set cur_page + 1
+			*gosub _populate_page
+			*goto _render_choice
+	*if ((cur_page > 1) and ((cur_page = page_count) or (next_pref != true)))
+		#[i]<-- Previous[/i]
+			*set next_pref false
+			*set cur_page - 1
+			*gosub _populate_page
+			*goto _render_choice
+	*if (option_guard_1)
+		#${option_text_1}
+			*set cslib_ret option_ret_val_1
+			*goto _return
+	*if (option_guard_2)
+		#${option_text_2}
+			*set cslib_ret option_ret_val_2
+			*goto _return
+	*if (option_guard_3)
+		#${option_text_3}
+			*set cslib_ret option_ret_val_3
+			*goto _return
+	*if (option_guard_4)
+		#${option_text_4}
+			*set cslib_ret option_ret_val_4
+			*goto _return
+	*if (option_guard_5)
+		#${option_text_5}
+			*set cslib_ret option_ret_val_5
+			*goto _return
+	*if (option_guard_6)
+		#${option_text_6}
+			*set cslib_ret option_ret_val_6
+			*goto _return
+	*if (option_guard_7)
+		#${option_text_7}
+			*set cslib_ret option_ret_val_7
+			*goto _return
+	*if (option_guard_8)
+		#${option_text_8}
+			*set cslib_ret option_ret_val_8
+			*goto _return
+	*if (option_guard_9)
+		#${option_text_9}
+			*set cslib_ret option_ret_val_9
+			*goto _return
+	*if (option_guard_10)
+		#${option_text_10}
+			*set cslib_ret option_ret_val_10
+			*goto _return
+	*if (((cur_page < page_count) and (next_pref != true)) and (cur_page != 1))
+		#[i]Next -->[/i]
+			*set next_pref true
+			*set cur_page + 1
+			*gosub _populate_page
+			*goto _render_choice
+	*if (((cur_page > 1) and (next_pref)) and (cur_page != page_count))
+		#[i]<-- Previous[/i]
+			*set next_pref false
+			*set cur_page - 1
+			*gosub _populate_page
+			*goto _render_choice
+	*if (allow_cancel) #${const_cancel_text}
+		*set cslib_ret 0
+		*goto _return
+*bug cslib_menu._render_choice: unreachable
+*label _return
+*return
+
+*label _init_option_vars
+*temp option_guard_1 false
+*temp option_guard_2 false
+*temp option_guard_3 false
+*temp option_guard_4 false
+*temp option_guard_5 false
+*temp option_guard_6 false
+*temp option_guard_7 false
+*temp option_guard_8 false
+*temp option_guard_9 false
+*temp option_guard_10 false
+*temp option_text_1 ""
+*temp option_text_2 ""
+*temp option_text_3 ""
+*temp option_text_4 ""
+*temp option_text_5 ""
+*temp option_text_6 ""
+*temp option_text_7 ""
+*temp option_text_8 ""
+*temp option_text_9 ""
+*temp option_text_10 ""
+*temp option_ret_val_1 0
+*temp option_ret_val_2 0
+*temp option_ret_val_3 0
+*temp option_ret_val_4 0
+*temp option_ret_val_5 0
+*temp option_ret_val_6 0
+*temp option_ret_val_7 0
+*temp option_ret_val_8 0
+*temp option_ret_val_9 0
+*temp option_ret_val_10 0
+*return
+
+*label _count
+*temp i 1
+*temp count 0
+*label _count_loop
+*if (i <= arr_count)
+	*gosub_scene {t_scene} {t_label} {prefix&i} i
+	*if (cslib_ret)
+		*set count + 1
+	*set i + 1
+	*goto _count_loop
+*set cslib_ret count
+*return

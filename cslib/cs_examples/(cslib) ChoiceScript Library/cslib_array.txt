@@ -1,0 +1,542 @@
+*bug cslib_array is a cslib module and must not be accessed directly
+
+*comment FILTER_BY_ROUTINE
+*comment ------------------------------
+*comment Copies values from a source array
+*comment to a target array conditionally. This
+*comment is based on the result of a given subroutine,
+*comment which will be applied to each element.
+*comment
+*comment The given condition routine should expect
+*comment to be passed three parameters:
+*comment - The element value
+*comment - The element's source array index
+*comment - The name of the source array
+*comment
+*comment And should return a boolean (true = include in the new array).
+*comment E.g.:
+*comment    *label is_short_string
+*comment    *params value index array_ref
+*comment    *set cslib_ret false
+*comment    *if (length(value) < 10)
+*comment        *set cslib_ret true
+*comment    *return
+*comment ------------------------------
+*comment    params:
+*comment        p_array_ref_src(string): the name of the array to copy from
+*comment        p_array_ref_tar(string): the name of the array to copy to
+*comment        p_scene(string): the name of the scene containing the condition routine
+*comment        p_label(string): the name of the label denoting the start of the routine
+*comment    returns:
+*comment        (number): the target array's new _count value
+*label filter_by_routine
+*params p_array_ref_src p_array_ref_tar p_scene p_label
+*temp filter_by_routine true
+*goto _filter_common
+
+*label _filter_common
+*temp src_count {p_array_ref_src&"_count"}
+*temp tar_max {p_array_ref_tar&"_max"}
+*set {p_array_ref_tar&"_count"} 0
+*temp src_index 1
+*temp tar_index 1
+*label _filter_by_routine_loop
+*if (src_index <= src_count)
+    *if (src_index > tar_max)
+        *bug cslib_array.filter_by_routine: Target array '${p_array_ref_tar}' of max size ${tar_max} is too small to hold all filtered values
+    *comment pass current element to filter function
+    *gosub_scene {p_scene} {p_label} {p_array_ref_src&"_${src_index}"} src_index p_array_ref_src
+    *temp filter_result cslib_ret
+    *if (filter_result)
+        *comment only copy to tar_array on a true result
+        *set {p_array_ref_tar&"_${tar_index}"} {p_array_ref_src&"_${src_index}"}
+        *set tar_index + 1
+        *comment update the 'size' of the target array
+        *set {p_array_ref_tar&"_count"} (tar_index - 1)
+    *set src_index + 1
+    *goto _filter_by_routine_loop
+*set cslib_ret (tar_index - 1)
+*return
+
+
+*comment CLONE
+*comment ------------------------------
+*comment Takes a reference to both a source
+*comment and target array. The contents of
+*comment the source array will be copied to
+*comment the target array. The target array's
+*comment _max value MUST be equal to or greater
+*comment than the source array's _count value.
+*comment ------------------------------
+*comment    params:
+*comment        p_array_ref_src(string): the name of the array to copy from
+*comment        p_array_ref_tar(string): the name of the array to copy to
+*comment    returns:
+*comment        (number): the new _count value of the target array
+*label clone
+*params p_array_ref_src p_array_ref_tar
+*temp n 1
+*temp src_count {p_array_ref_src&"_count"}
+*temp tar_max {p_array_ref_tar&"_max"}
+*if (src_count > tar_max)
+    *bug cslib_array.clone: Target array '${p_array_ref_tar}' is too small
+*label _clone_loop
+*if (n <= src_count)
+    *set {p_array_ref_tar&"_${n}"} {p_array_ref_src&"_${n}"}
+    *set n + 1
+    *goto _clone_loop
+*set {p_array_ref_tar&"_count"} (n - 1)
+*set cslib_ret n
+*return
+
+
+*comment CLEAN
+*comment ------------------------------
+*comment Sets all elements in a given array to an empty string,
+*comment and sets its _count to 0.
+*comment ------------------------------
+*comment    params:
+*comment        p_array_ref_src(string): the name of the array to copy from
+*label clean
+*params p_array_ref
+*gosub set_all p_array_ref ""
+*set {p_array_ref&"_count"} 0
+*return
+
+
+*comment SET_ALL
+*comment ------------------------------
+*comment Sets all elements in an array to a given value.
+*comment By default this will set all elements up to _max,
+*comment resetting _count to _max. An optional
+*comment third parameter, 'p_count', may be specified to
+*comment set the array to a smaller size.
+*comment ------------------------------
+*comment    params:
+*comment        p_array_ref(string): the name of the array to add to
+*comment        p_value(any): the value to be added to the start of the array
+*comment        p_count(number)?: the new length of the array (default is _max)
+*label set_all
+*params p_array_ref p_value
+*temp p_count "@{param_count=3 ${param_3}|${{p_array_ref&\"_max\"}}}"
+*temp n 1
+*label _set_all_loop
+*if (n <= p_count)
+    *set {p_array_ref&"_${n}"} p_value
+    *set n + 1
+    *gosub _set_all_loop
+*set {p_array_ref&"_count"} p_count
+*return
+
+
+*comment SET_FROM
+*comment ------------------------------
+*comment Sets an array's elements sequentially from a given
+*comment list set of parameters, and a given start index in
+*comment the array.
+*comment ------------------------------
+*comment    params:
+*comment        p_array_ref(string): the name of the array
+*comment        p_index(number): the index to start setting the array from
+*comment        param_n(number): a series of values to set the array's elements to
+*comment    returns:
+*comment        (number): the array's new _count value
+*label set_from
+*params p_array_ref
+*temp p_from true
+*goto _set
+
+
+*comment SET
+*comment ------------------------------
+*comment Sets an array's elements sequentially from a given
+*comment list set of parameters. The array's _count value
+*comment will be updated to match the number of parameters.
+*comment ------------------------------
+*comment    params:
+*comment        p_array_ref(string): the name of the array
+*comment        param_n(number): a series of values to set the array's elements to
+*comment    returns:
+*comment        (number): the array's new _count value
+*label set
+*params p_array_ref
+*temp p_from false
+*goto _set
+
+*label _set
+*temp array_ p_array_ref&"_"
+*temp max {array_&"max"}
+*temp p_index "@{p_from ${param_2}|1}"
+*temp param_offset "@{p_from 2|1}"
+*temp value_count (param_count - param_offset)
+*if ((p_index + value_count) > max)
+    *bug cslib_array.set: Array '${p_array_ref}' (_max of ${max}) does not have enough space for ${value_count} values from position ${p_index}
+*temp n 1
+*temp i p_index
+*label _set_loop
+*if (n <= value_count)
+    *set {array_&i} param[n+param_offset]
+    *set n + 1
+    *set i + 1
+    *gosub _set_loop
+*temp new_count (i - 1)
+*set {array_&"count"} new_count
+*set cslib_ret new_count
+*return
+
+
+*comment UNSHIFT
+*comment ------------------------------
+*comment Adds a new value to the start of an array,
+*comment shifting any already already present values,
+*comment and increasing the _count value.
+*comment Note that _count must be less than _max.
+*comment ------------------------------
+*comment    params:
+*comment        p_array_ref(string): the name of the array to add to
+*comment        p_value(any): the value to be added to the start of the array
+*label unshift
+*params p_array_ref p_value
+*gosub insert p_array_ref p_value 1
+*return
+
+
+*comment PUSH
+*comment ------------------------------
+*comment Adds a new value to the end of an array,
+*comment and increases its _count value.
+*comment Note that _count must be less than _max.
+*comment ------------------------------
+*comment    params:
+*comment        p_array_ref(string): the name of the array to add to
+*comment        p_value(any): the value to be added to the end of the array
+*label push
+*params p_array_ref p_value
+*gosub insert p_array_ref p_value ({p_array_ref&"_count"} + 1)
+*return
+
+
+*comment INSERT
+*comment ------------------------------
+*comment Inserts a new value into an array at
+*comment a specified index, shifting any already
+*comment present values as necessary, and increasing _count.
+*comment ------------------------------
+*comment    params:
+*comment        p_array_ref(string): the name of the array into which to insert p_value
+*comment        p_value(any): the value to be inserted at p_index
+*comment        p_index(number): the index at which to insert p_value
+*label insert
+*params p_array_ref p_value p_index
+*temp count {p_array_ref&"_count"}
+*temp max {p_array_ref&"_max"}
+*if (p_index <= 0)
+    *bug "cslib_array.insert: Index ${p_index} is out of range"
+*if (p_index > max)
+    *bug "cslib_array.insert: Index ${p_index} is greater than ${p_array_ref}'s max length: ${max}"
+*if (count = max)
+    *bug "cslib_array.insert: ${p_array_ref} is already at max length: ${max}"
+*gosub_scene cslib_array _shift_right p_array_ref p_index
+*set {p_array_ref&"_${p_index}"} p_value
+*if (p_index > count)
+    *set {p_array_ref&"_count"} p_index
+*set cslib_ret ""
+*return
+
+
+*comment SHIFT
+*comment ------------------------------
+*comment Removes the value at the start of an array,
+*comment shuffling values and decreasing its _count value.
+*comment Note that the array must not be empty (_count = 0).
+*comment ------------------------------
+*comment    params:
+*comment        p_array_ref(string): the name of the array to shift from
+*comment    returns:
+*comment        (any): the value removed from the array
+*label shift
+*params p_array_ref
+*gosub remove p_array_ref 1
+*return
+
+
+*comment POP
+*comment ------------------------------
+*comment Removes the value at the end of an array,
+*comment and decreases its _count value.
+*comment Note that the array must not be empty (_count = 0).
+*comment ------------------------------
+*comment    params:
+*comment        p_array_ref(string): the name of the array to pop from
+*comment    returns:
+*comment        (any): the value removed from the array
+*label pop
+*params p_array_ref
+*gosub remove p_array_ref {p_array_ref&"_count"}
+*return
+
+
+*comment REMOVE
+*comment ------------------------------
+*comment Removes the element at a specified index
+*comment of a given array, shuffling values as
+*comment necessary, and decreasing _count.
+*comment Note that the array must not be empty (_count = 0).
+*comment ------------------------------
+*comment    params:
+*comment        p_array_ref(string): the name of the array to remove the value from
+*comment        p_index(string): the index of the entry to remove
+*comment    returns:
+*comment        (any): the value removed from the array
+*label remove
+*params p_array_ref p_index
+*temp count {p_array_ref&"_count"}
+*if (p_index <= 0)
+    *bug "cslib_array.insert: Index ${p_index} is out of range"
+*if (count = 0)
+    *bug "cslib_array.remove: ${p_array_ref} is empty and has nothing to remove"
+*temp ret {p_array_ref&"_${p_index}"}
+*if (p_index = count)
+    *set {p_array_ref&"_count"} - 1
+*else
+    *gosub_scene cslib_array _shift_left p_array_ref p_index
+*set cslib_ret ret
+*return
+
+
+*comment JOIN
+*comment ------------------------------
+*comment Returns all elements of an array joined as a string.
+*comment An optional string may be passed with which
+*comment to separate the elements.
+*comment ------------------------------
+*comment    params:
+*comment        p_array_ref(string): the name of the array to convert to a string
+*comment        p_separator(string)?: the string to insert between each array element
+*comment    returns:
+*comment        (string): all array elements as a string
+*label join
+*params p_array_ref
+*set p_array_ref &"_"
+*temp p_separator "@{(param_count > 1) ${param_2}|}"
+*temp count {p_array_ref&"count"}
+*set cslib_ret ""
+*if (count < 1)
+    *return
+*temp n 1
+*label _to_join_loop
+*if (n < count)
+    *set cslib_ret &({p_array_ref&n}&p_separator)
+    *set n + 1
+    *goto _to_join_loop
+*set cslib_ret &{p_array_ref&n}
+*return
+
+
+*comment REVERSE
+*comment ------------------------------
+*comment Reverses the elements in the array.
+*comment ------------------------------
+*comment    params:
+*comment        p_array_ref(string): the name of the array to reverse
+*label reverse
+*params p_array_ref
+*set p_array_ref &"_"
+*set cslib_ret ""
+*temp count {p_array_ref&"count"}
+*if count < 2
+    *return
+*temp s_idx 1
+*temp e_idx count
+*temp store
+*label _reverse_loop
+*if (s_idx < e_idx)
+    *set store {p_array_ref&s_idx}
+    *set {p_array_ref&s_idx} {p_array_ref&e_idx}
+    *set {p_array_ref&e_idx} store
+    *set s_idx + 1
+    *set e_idx - 1
+    *goto _reverse_loop
+*return
+
+
+*comment FOR_EACH
+*comment ------------------------------
+*comment Call a given subroutine against each
+*comment element in the array.
+*comment
+*comment The given routine should expect
+*comment to be passed three parameters:
+*comment - The element value
+*comment - The element's source array index
+*comment - The name of the source array
+*comment
+*comment And should return a new value for the element.
+*comment E.g.:
+*comment    *label capitalize_str
+*comment    *params value index array_ref
+*comment    *set cslib_ret "$!!{value}"
+*comment    *return
+*comment ------------------------------
+*comment    params:
+*comment        p_array_ref(string): the name of the array to iterate over
+*comment        p_scene(string): the name of the scene containing the routine
+*comment        p_label(string): the name of the label denoting the start of the routine
+*label for_each
+*params p_array_ref p_scene p_label
+*temp array_ p_array_ref&"_"
+*set cslib_ret ""
+*temp count {array_&"count"}
+*temp n 1
+*label _for_each_loop
+*if (n <= count)
+    *gosub_scene {p_scene} {p_label} {array_&n} n p_array_ref
+    *set {array_&n} cslib_ret
+    *set n + 1
+    *goto _for_each_loop
+*return
+
+
+*comment TEST_ANY
+*comment ------------------------------
+*comment Apply a given condition subroutine against each
+*comment element in the array and return a boolean
+*comment denoting whether or not ALL elements met it.
+*comment
+*comment The given routine should expect
+*comment to be passed three parameters:
+*comment - The element value
+*comment - The element's source array index
+*comment - The name of the source array
+*comment
+*comment And should return a boolean (true = condition met).
+*comment E.g.:
+*comment    *label is_short_string
+*comment    *params value index array_ref
+*comment    *set cslib_ret false
+*comment    *if (length(value) < 10)
+*comment        *set cslib_ret true
+*comment    *return
+*comment ------------------------------
+*comment    params:
+*comment        p_array_ref(string): the name of the array to iterate over
+*comment        p_scene(string): the name of the scene containing the routine
+*comment        p_label(string): the name of the label denoting the start of the routine
+*comment    returns:
+*comment        (boolean): true if all elements match the condition (or array is empty), else false
+*label test_any
+*params p_array_ref p_scene p_label
+*temp array_ p_array_ref&"_"
+*temp count {array_&"count"}
+*temp n 1
+*label _test_any_loop
+*if (n <= count)
+    *gosub_scene {p_scene} {p_label} {array_&n} n
+    *if not(cslib_ret)
+        *return
+    *set n + 1
+    *goto _test_any_loop
+*set cslib_ret true
+*return
+
+
+*comment TEST_SOME
+*comment ------------------------------
+*comment Apply a given condition subroutine against each
+*comment element in the array and return a boolean
+*comment denoting whether or not ANY elements met it.
+*comment
+*comment The given routine should expect
+*comment to be passed three parameters:
+*comment - The element value
+*comment - The element's source array index
+*comment - The name of the source array
+*comment
+*comment And should return a boolean (true = condition met).
+*comment E.g.:
+*comment    *label is_short_string
+*comment    *params value index array_ref
+*comment    *set cslib_ret false
+*comment    *if (length(value) < 10)
+*comment        *set cslib_ret true
+*comment    *return
+*comment ------------------------------
+*comment    params:
+*comment        p_array_ref(string): the name of the array to iterate over
+*comment        p_scene(string): the name of the scene containing the routine
+*comment        p_label(string): the name of the label denoting the start of the routine
+*comment    returns:
+*comment        (boolean): true if any elements match the condition (and the array is NOT empty), else false
+*label test_some
+*params p_array_ref p_scene p_label
+*temp array_ p_array_ref&"_"
+*temp count {array_&"count"}
+*temp n 1
+*label _test_some_loop
+*if (n <= count)
+    *gosub_scene {p_scene} {p_label} {array_&n} n
+    *if (cslib_ret)
+        *return
+    *set n + 1
+    *goto _test_some_loop
+*set cslib_ret false
+*return
+
+
+*comment :::::::::::::: INTERNAL routines ::::::::::::::
+*comment --- (DO NOT CALL FROM OUTSIDE THE MODULE) ---
+
+*comment _shift_left
+*comment ------------------------------
+*comment Given an index into an array, move all values in
+*comment subsequent elements one element to the left,
+*comment shrinking the array size (_count) by 1.
+*comment
+*comment e.g.:
+*comment    [1, 2, {p_index}, 4, 5, 6]
+*comment    [1, 2, 4, 5, 6]
+*comment ------------------------------
+*comment    params:
+*comment        p_array_ref(string): the name of the array to shift
+*comment        p_index(number): the index at which to shift from
+*label _shift_left
+*params p_array_ref p_index
+*temp array_ p_array_ref&"_"
+*temp count {array_&"count"}
+*temp n p_index
+*label _shift_left_loop
+*temp current_value {array_&n}
+*if (n < count)
+    *set {array_&n} {array_&(n+1)}
+    *set n + 1
+    *goto _shift_left_loop
+*set {array_&"count"} (count - 1)
+*set cslib_ret ""
+*return
+
+*comment _shift_right
+*comment ------------------------------
+*comment Given an index into an array, move all values in
+*comment subsequent elements one element to the right,
+*comment increasing the array size (_count) by 1.
+*comment
+*comment e.g.:
+*comment    [1, 2, 3 = {p_index}, 4, 5, 6]
+*comment    [1, 2, ' ', 3, 4, 5, 6]
+*comment ------------------------------
+*comment    params:
+*comment        p_array_ref(string): the name of the array to shift
+*comment        p_index(number): the index at which to shift from
+*label _shift_right
+*params p_array_ref p_index
+*temp array_ p_array_ref&"_"
+*temp count {array_&"count"}
+*temp n (count + 1)
+*label _shift_right_loop
+*if (p_index < n)
+    *set {array_&n} {array_&(n-1)}
+    *set n - 1
+    *goto _shift_right_loop
+*set {array_&"count"} (count + 1)
+*set cslib_ret ""
+*return

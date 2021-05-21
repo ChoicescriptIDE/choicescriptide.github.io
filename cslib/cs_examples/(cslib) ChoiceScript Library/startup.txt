@@ -1,0 +1,115 @@
+*title ChoiceScript Library (cslib)
+*author CSIDE
+
+*comment Set to FALSE for manual test selection
+*create automatic_testing true
+
+*comment CSLIB_VARS / CONFIGURATION
+*comment ----------------------------------
+*create cslib_ret 0
+
+*comment MODULE TEST REGISTRATION
+*create module_count 7
+*create module_0 ""
+*create module_1 "test_framework"
+*create module_log_1 ""
+*create module_2 "string"
+*create module_log_2 ""
+*create module_3 "number"
+*create module_log_3 ""
+*create module_4 "util"
+*create module_log_4 ""
+*create module_5 "menu"
+*create module_log_5 ""
+*create module_6 "array"
+*create module_log_6 ""
+*create module_7 "math"
+*create module_log_7 ""
+
+*comment GLOBAL TEST VARIABLES
+*create total_tests_run 0
+*create total_tests_passed 0
+
+*comment ARRAY TEST DATA
+*create test_menu_opt_max 9
+*create test_menu_opt_count 9
+*create test_menu_opt_1 ""
+*create test_menu_opt_2 ""
+*create test_menu_opt_3 ""
+*create test_menu_opt_4 ""
+*create test_menu_opt_5 ""
+*create test_menu_opt_6 ""
+*create test_menu_opt_7 ""
+*create test_menu_opt_8 ""
+*create test_menu_opt_9 ""
+
+*comment GLOBAL VALUES
+*create const_num_max 9
+*create const_num_count 9
+*create const_num_1 1
+*create const_num_2 2
+*create const_num_3 3
+*create const_num_4 4
+*create const_num_5 5
+*create const_num_6 6
+*create const_num_7 7
+*create const_num_8 8
+*create const_num_9 9
+
+*create test_arr_max 9
+*create test_arr_count 9
+*create test_arr_1 ""
+*create test_arr_2 ""
+*create test_arr_3 ""
+*create test_arr_4 ""
+*create test_arr_5 ""
+*create test_arr_6 ""
+*create test_arr_7 ""
+*create test_arr_8 ""
+*create test_arr_9 ""
+
+*create str_buffer ""
+
+*create cslib_catch_bug false
+*create cslib_catch_choice false
+*create cslib_choice_select 0
+
+*comment ARRAY USED AS RESULT FROM TOKENIZATION
+*create tokens_1 ""
+*create tokens_2 ""
+*create tokens_3 ""
+*create tokens_4 ""
+*create tokens_5 ""
+*comment The max number of entries (storage size).
+*create tokens_max 5
+*comment The number of valid entries.
+*create tokens_count 0
+
+*comment SOME STATS FOR MIN/MAX
+*create test_stat_strength 0
+*create test_stat_charisma 0
+*create test_stat_wisdom 0
+
+*set implicit_control_flow true
+
+*if choice_randomtest
+	*comment override randomtest's Scene.prototype.choice so we can perform automated testing (original source in mygame.js)
+	*script Scene.prototype.choice=function(i){var t=["choice"];i&&(t=i.split(/ /));var n=this.parseOptions(this.indent,t),e=this;timeout=function(){println(""),e.renderOptions(t,n,function(i){e.standardResolution(i)})},this.finished=!0};
+
+*if (automatic_testing)
+	*comment automatic 'test all' for CI, quicktest etc.
+	*gosub_scene _test_entry test_all_modules
+	*if (total_tests_passed < total_tests_run)
+		*comment print all module logs
+		*gosub_scene cslib_array for_each "module" "_test_display_templates" "display_log"
+		*comment force everything to print before we fail
+		*page_break
+		*comment force quicktest + randomtest to fail
+		*bug ${total_tests_passed}/${total_tests_run} tests passed (${total_tests_run - total_tests_passed} failed)
+	*else
+		All tests passed.
+*else
+	*comment allow user to select individual tests, view logs etc.
+	*goto_scene _test_entry main
+
+*gosub_scene cslib_array for_each 
