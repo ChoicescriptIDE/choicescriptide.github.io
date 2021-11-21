@@ -12,10 +12,10 @@
     "target": "https://choicescriptide.github.io/downloads/updates/targets/preview141.zip"
   },
   "development": {
-    "CSIDE_version": "1.4.3",
+    "CSIDE_version": "1.4.4",
     "nw_version": "0.49.0",
-    "desc": "Multiple Editor Support",
-    "target": "https://choicescriptide.github.io/downloads/updates/targets/preview143.zip"
+    "desc": "Bug Fixes and Enhancements",
+    "target": "https://choicescriptide.github.io/downloads/updates/targets/preview144.zip"
   },
   "accessible": {
     "CSIDE_version": "0.0.0",
