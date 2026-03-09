@@ -12,10 +12,10 @@
 		"target": "https://choicescriptide.github.io/downloads/updates/targets/133.zip"
 	},
 	"development": {
-    "CSIDE_version": "1.3.4",
+    "CSIDE_version": "1.3.5",
     "nw_version": "0.21.4",
-    "desc": "v1.3.4 Patch release. Fixes *image and adds support for checkpoints.",
-		"target": "https://choicescriptide.github.io/downloads/updates/targets/134.zip"
+    "desc": "v1.3.5 Patch release: fixes auto-update.",
+		"target": "https://choicescriptide.github.io/downloads/updates/targets/135.zip"
 	},
   "accessible": {
     "CSIDE_version": "1.1.2",
